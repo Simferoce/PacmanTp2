@@ -74,10 +74,6 @@ namespace TP2Tests
     [TestMethod]
     public void TestComputeCost_01()
     {
-      // Mise en place des données
-      Grid aGrid = new Grid();
-      aGrid.LoadFromMemory(VALID_LEVEL_01);
-      int[,] costs= PathFinder.InitCosts(aGrid, 0, 0);
 
       // Appel de la méthode à tester
       PathFinder.ComputeCosts(aGrid,0,0,1,1,costs);

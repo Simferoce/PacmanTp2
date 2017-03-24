@@ -93,6 +93,8 @@ namespace TP2PROF
         {
             get
             {
+                if (elements == null)
+                    return -1;
                 return elements.GetLength(0);
             }
         }
@@ -102,7 +104,15 @@ namespace TP2PROF
         /// Propriété C#
         /// </summary>
         // A compléter
-        public int Width { get { return elements.GetLength(1); } }
+        public int Width
+        {
+            get
+            {
+                if (elements == null)
+                    return -1;
+                return elements.GetLength(1);
+            }
+        }
 
 
     /// <summary>
@@ -111,6 +121,7 @@ namespace TP2PROF
     // A compléter
     public Grid()
         {
+
         }
 
 
@@ -122,14 +133,23 @@ namespace TP2PROF
     /// <returns>true si le chargement est correct, false sinon</returns>
     public bool LoadFromMemory(string content)
     {
+            elements = new PacmanElement[22, 21];
+            for(int i =0; i < Height; i++)
+            {
+                for(int j =0; j < Width; j++)
+                {
+                    elements[i,j] = 0;
+                }
+            }
       bool retval = true;
             bool pacmanFound = false;
             bool cageFound = false;
+            string[] temp1 = content.Split(';');
+                string[][] temp2 = new string[temp1.Length][];
             // A compléter selon les spécifications du travail
             try
             {
-                string[] temp1 = content.Split(';');
-                string[][] temp2 = new string[temp1.Length][];
+
                 for(int i = 0;i < temp1.Length; i++)
                 {
                     temp2[i] = temp1[i].Split(',');
@@ -138,6 +158,10 @@ namespace TP2PROF
                 {
                     for(int j = 0; j < temp2[0].Length; j++)
                     {
+                        if (j == 0)
+                        {
+                            temp2[i][j] = temp2[i][j].Trim();
+                        }
                         elements[i, j] = (PacmanElement)int.Parse(temp2[i][j]);
                         if(elements[i, j] == (PacmanElement)3)
                         {
@@ -165,19 +189,29 @@ namespace TP2PROF
                         }
                     }
                 }
+                if (pacmanOriginPosition == null || ghostCagePosition == null)
+                {
+                    retval = false;
+                }
+                else if(!(temp1.Length == Height && temp2[0].Length == Width))
+                {
+                    retval = false;
+                }
+                else if(!pacmanFound)
+                {
+                    retval = false;
+                }
+                else if(!cageFound)
+                {
+                    retval = false;
+                }
             }
+            
             catch
             {
                 retval = false;
             }
-            if (pacmanOriginPosition == null || ghostCagePosition == null)
-            {
-                retval = false;
-            }
-            else if(!(Height == 22 && Width == 21))
-            {
-                retval = false;
-            }
+
       return retval;
     }
 
