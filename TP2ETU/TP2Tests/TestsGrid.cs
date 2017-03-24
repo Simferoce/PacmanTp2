@@ -402,7 +402,7 @@ namespace TP2Tests
             // Appel de la méthode à tester
 
             // Validation des résultats
-            Assert.AreEqual(6,grid.GetGridElementAt(11,10));
+            Assert.AreEqual((PacmanElement)6,grid.GetGridElementAt(10,10));
       // Clean-up
     }
 
@@ -419,11 +419,12 @@ namespace TP2Tests
             // Mise en place des données
             Grid grid = new Grid();
             // Appel de la méthode à tester
+            grid.LoadFromMemory(VALID_LEVEL_01);
             // Validation des résultats
-            Assert.AreEqual(5, grid.GetGridElementAt(2,2));
-            Assert.AreEqual(5, grid.GetGridElementAt(2, 18));
-            Assert.AreEqual(5, grid.GetGridElementAt(19, 2));
-            Assert.AreEqual(5, grid.GetGridElementAt(19, 18));
+            Assert.AreEqual((PacmanElement)5, grid.GetGridElementAt(2,2));
+            Assert.AreEqual((PacmanElement)5, grid.GetGridElementAt(2, 18));
+            Assert.AreEqual((PacmanElement)5, grid.GetGridElementAt(19, 2));
+            Assert.AreEqual((PacmanElement)5, grid.GetGridElementAt(19, 18));
 
             // Clean-up
         }
@@ -442,11 +443,11 @@ namespace TP2Tests
             // Appel de la méthode à tester
             grid.LoadFromMemory(VALID_LEVEL_01);
             // Validation des résultats
-            Assert.AreEqual(4, grid.GetGridElementAt(1,3));
-            Assert.AreEqual(4, grid.GetGridElementAt(1, 4));
-            Assert.AreEqual(4, grid.GetGridElementAt(1, 5));
-            Assert.AreEqual(4, grid.GetGridElementAt(1, 6));
-            Assert.AreEqual(4, grid.GetGridElementAt(1, 7));
+            Assert.AreEqual((PacmanElement)4, grid.GetGridElementAt(1,3));
+            Assert.AreEqual((PacmanElement)4, grid.GetGridElementAt(1, 4));
+            Assert.AreEqual((PacmanElement)4, grid.GetGridElementAt(1, 5));
+            Assert.AreEqual((PacmanElement)4, grid.GetGridElementAt(1, 6));
+            Assert.AreEqual((PacmanElement)4, grid.GetGridElementAt(1, 7));
             // Clean-up
         }
 
@@ -490,7 +491,7 @@ namespace TP2Tests
             // Appel de la méthode à tester
             grid.SetGridElementAt(0,0,(PacmanElement)5);
             // Validation des résultats
-            Assert.AreEqual(5, grid.GetGridElementAt(0,0));
+            Assert.AreEqual((PacmanElement)5, grid.GetGridElementAt(0,0));
       // Clean-up
     }
     /// <summary>
