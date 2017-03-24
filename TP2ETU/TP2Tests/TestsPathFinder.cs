@@ -80,20 +80,26 @@ namespace TP2Tests
       int[,] costs= PathFinder.InitCosts(aGrid, 0, 0);
 
       // Appel de la méthode à tester
-      PathFinder.ComputeCosts(aGrid,0,0,0,0,costs);
+      PathFinder.ComputeCosts(aGrid,0,0,1,1,costs);
 
       // Validations
-      // Chemins existants
-      Assert.AreEqual(PacmanElement.None, costs[,] );
-
-
-
-
-      // Chemins inexistants
-       Assert.AreEqual(PacmanElement.Wall, PathFinder.costs[,]);
-
-
-      
+     
+      for (int i = 0; i < costs.GetLength(0)-1; i++)
+      {
+        for (int j = 0; j < costs.GetLength(1)-1; j++)
+        {
+          // Chemins existants
+          if (costs[i,j]!=int.MaxValue)
+          {
+            Assert.AreNotEqual(PacmanElement.Mur, aGrid.GetGridElementAt(i, j));
+          }
+          // Chemins inexistants
+          else
+          {
+            Assert.AreEqual(PacmanElement.Mur, aGrid.GetGridElementAt(i,j));
+          }
+        }
+      }    
     }
     
     /// <summary>
@@ -104,11 +110,14 @@ namespace TP2Tests
     public void TestFindPath_NoDisplacement()
     {
       // Mise en place des données
-      
+      Grid aGrid = new Grid();
+      aGrid.LoadFromMemory(VALID_LEVEL_01);
+      int[,] costs = PathFinder.InitCosts(aGrid, 0, 0);
       // Appel de la méthode à tester
-
+      PathFinder.ComputeCosts(aGrid,0,0,0,0,costs);
       // Validations
-
+      Assert.AreEqual(0, costs[0,0]);
+      Assert.AreEqual(int.MaxValue, 0, 1);
       // Cleanup
     }
 
@@ -120,9 +129,11 @@ namespace TP2Tests
     public void TestFindPath_ToEast()
     {
       // Mise en place des données
-
+      Grid aGrid = new Grid();
+      aGrid.LoadFromMemory(VALID_LEVEL_01);
+      int[,] costs = PathFinder.InitCosts(aGrid, 0, 0);
       // Appel de la méthode à tester
-
+      PathFinder.ComputeCosts(aGrid, 0, 0,1 , 0, costs);
       // Validations
 
       // Cleanup      
@@ -137,7 +148,9 @@ namespace TP2Tests
     public void TestFindPath_ToWest()
     {
       // Mise en place des données
-
+      Grid aGrid = new Grid();
+      aGrid.LoadFromMemory(VALID_LEVEL_01);
+      int[,] costs = PathFinder.InitCosts(aGrid, 0, 0);
       // Appel de la méthode à tester
 
       // Validations
@@ -153,7 +166,9 @@ namespace TP2Tests
     public void TestFindPath_ToNorth()
     {
       // Mise en place des données
-
+      Grid aGrid = new Grid();
+      aGrid.LoadFromMemory(VALID_LEVEL_01);
+      int[,] costs = PathFinder.InitCosts(aGrid, 0, 0);
       // Appel de la méthode à tester
 
       // Validations
@@ -168,7 +183,9 @@ namespace TP2Tests
     public void TestFindPath_ToSouth()
     {
       // Mise en place des données
-
+      Grid aGrid = new Grid();
+      aGrid.LoadFromMemory(VALID_LEVEL_01);
+      int[,] costs = PathFinder.InitCosts(aGrid, 0, 0);
       // Appel de la méthode à tester
 
       // Validations
@@ -185,7 +202,9 @@ namespace TP2Tests
     public void TestFindPath_ImpossibleToWall()
     {
       // Mise en place des données
-
+      Grid aGrid = new Grid();
+      aGrid.LoadFromMemory(VALID_LEVEL_01);
+      int[,] costs = PathFinder.InitCosts(aGrid, 0, 0);
       // Appel de la méthode à tester
 
       // Validations
@@ -198,8 +217,11 @@ namespace TP2Tests
     /// </summary>
     [TestMethod]
     public void TestFindPath_ImpossibleFromWall()
-    {      // Mise en place des données
-
+    {
+      // Mise en place des données
+      Grid aGrid = new Grid();
+      aGrid.LoadFromMemory(VALID_LEVEL_01);
+      int[,] costs = PathFinder.InitCosts(aGrid, 0, 0);
       // Appel de la méthode à tester
 
       // Validations

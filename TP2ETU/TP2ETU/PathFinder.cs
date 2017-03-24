@@ -83,7 +83,7 @@ namespace TP2PROF
 
         if (costs.GetLength(0)-1>=fromY+1)
         { 
-           if (aGrid.GetGridElementAt(fromY+1,fromX)==PacmanElement.None)
+           if (aGrid.GetGridElementAt(fromY+1,fromX)!=PacmanElement.Mur)
            {
              if(costs[fromY+1,fromX]<costs[fromY,fromX])
              {
@@ -95,7 +95,7 @@ namespace TP2PROF
 
         if (0 <= fromY - 1)
         {
-          if (aGrid.GetGridElementAt(fromY-1, fromX) == PacmanElement.None)
+          if (aGrid.GetGridElementAt(fromY-1, fromX) != PacmanElement.Mur)
           {
             if (costs[fromY - 1, fromX] < costs[fromY, fromX])
             {
@@ -107,7 +107,7 @@ namespace TP2PROF
 
         if (costs.GetLength(1) - 1 >= fromX + 1)
         {
-          if (aGrid.GetGridElementAt(fromY, fromX+1) == PacmanElement.None)
+          if (aGrid.GetGridElementAt(fromY, fromX+1) != PacmanElement.Mur)
           {
             if (costs[fromY, fromX+1] < costs[fromY, fromX])
             {
@@ -119,7 +119,7 @@ namespace TP2PROF
 
         if (0 <= fromX - 1)
         {
-          if (aGrid.GetGridElementAt(fromY, fromX-1) == PacmanElement.None)
+          if (aGrid.GetGridElementAt(fromY, fromX-1) != PacmanElement.Mur)
           {
             if (costs[fromY, fromX-1] < costs[fromY, fromX])
             {

@@ -12,10 +12,10 @@ namespace TP2PROF
   {
     None,
     Undefined,
-    Up,
-    Down,
-    Left,
-    Right
+    North,
+    South,
+    West,
+    East
   }
 
 }
