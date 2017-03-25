@@ -35,23 +35,23 @@ namespace TP2PROF
     /// La grille principale de jeu. Elle est créée dans la méthode LoadGrid
     /// </summary>
     // A COMPLETER
-
+    Grid grid = new Grid();
 
     /// <summary>
     /// Nombre de fantômes présents dans le jeu
     /// </summary>
     // A COMPLETER
-
+    private const int NB_GHOSTS = 4;
     /// <summary>
     /// Les 4 fantômes du jeu
     /// </summary>
     // A COMPLETER
-
+    private Ghost[] ghosts= new Ghost[NB_GHOSTS];
     /// <summary>
     /// Le pacman du jeu
     /// </summary>
     // A COMPLETER
-
+    private Pacman pacman;
     /// <summary>
     /// Durée d'activation d'une superpastille (en secondes)
     /// </summary>
@@ -101,29 +101,38 @@ namespace TP2PROF
       if (retval)
       {
         string fileContent = System.IO.File.ReadAllText(path);
-        // ppoulin
+        // vBouchard
         // Appelez la méthode LoadFromMemory ici
         // A COMPLETER
-
+         retval = grid.LoadFromMemory(fileContent);
 
         // Si le chargement s'est correctement effectué
         if (true == retval)
         {
-          // On parcourt la grille et, avec la méthode GetGridElementAt
-          // On trouve les positions où il y a des fantômes
-          
-          // Quand on en trouve un, on crée le fantôme (new Ghost(...)) correspondant
-          // et on l'enlève de la grille car dorénavant c'est l'objet de type Ghost
-          // qui gère le déplacement
-
-
-
+          int k = 0;
+          for (int i = 0; i < grid.Height-1; i++)
+          {
+            for (int j = 0; j < grid.Width-1; j++)
+            {
+              // On parcourt la grille et, avec la méthode GetGridElementAt
+              // On trouve les positions où il y a des fantômes
+              if (grid.GetGridElementAt(i,j)== PacmanElement.Fantome)
+              {
+                // Quand on en trouve un, on crée le fantôme (new Ghost(...)) correspondant
+                // et on l'enlève de la grille car dorénavant c'est l'objet de type Ghost
+                // qui gère le déplacement
+                ghosts[k] = new Ghost(i,j);
+                grid.SetGridElementAt(i,j, PacmanElement.Rien);
+                k++;
+              }
+            }
+          }
           // Ensuite, on crée le pacman à la position spécifiée par la grille.
-          
+          pacman = new Pacman(grid.PacmanOriginalPositionRow, grid.PacmanOriginalPositionColumn);
 
           // Puis, comme pour les fantômes, on le retire de la grille. 
           // Sa position sera gérée par l'instance de la classe Pacman
-          
+          grid.SetGridElementAt(grid.PacmanOriginalPositionRow, grid.PacmanOriginalPositionColumn,PacmanElement.Rien);
         }
       }
 
@@ -209,43 +218,44 @@ namespace TP2PROF
     {
       // PPOULIN
       // A DECOMMENTER LORSQUE LES CLASSES AURONT ÉTÉ CODÉES
-      //for (int row = 0; row < grid.Height; row++)
-      //{
-      //  for (int col = 0; col < grid.Width; col++)
-      //  {
-      //    // Pastille régulière
-      //    if (grid.GetGridElementAt(row, col)==PacmanElement.Pill)                  
-      //    {
-      //      smallPillShape.Position = new Vector2f(col * DEFAULT_GAME_ELEMENT_WIDTH, row * DEFAULT_GAME_ELEMENT_HEIGHT);
-      //      window.Draw(smallPillShape);     
-      //    }
-      //    // Super pastille
-      //    else if (grid.GetGridElementAt(row, col) == PacmanElement.SuperPill)
-      //    {
+      for (int row = 0; row < grid.Height; row++)
+      {
+        for (int col = 0; col < grid.Width; col++)
+        {
+          // Pastille régulière
+          if (grid.GetGridElementAt(row, col)==PacmanElement.Pastille)                  
+          {
+            smallPillShape.Position = new Vector2f(col * DEFAULT_GAME_ELEMENT_WIDTH, row * DEFAULT_GAME_ELEMENT_HEIGHT);
+            window.Draw(smallPillShape);     
+          }
+          // Super pastille
+          else if (grid.GetGridElementAt(row, col) == PacmanElement.SuperPastille)
+          {
 
-      //      superPillShape.Radius =  SUPER_PILL_RADIUS;
-      //      superPillShape.Position = new Vector2f(col * DEFAULT_GAME_ELEMENT_WIDTH, row * DEFAULT_GAME_ELEMENT_HEIGHT);
-      //      window.Draw(superPillShape);
-      //    }
-      //    // Mur
-      //    else if (grid.GetGridElementAt(row, col) == PacmanElement.Wall)
-      //    {
-      //      wallSprite.Position = new Vector2f(col * DEFAULT_GAME_ELEMENT_WIDTH, row * DEFAULT_GAME_ELEMENT_HEIGHT);
-      //      window.Draw(wallSprite);
-      //    }
-      //  }
-      //}
+            superPillShape.Radius =  SUPER_PILL_RADIUS;
+            superPillShape.Position = new Vector2f(col * DEFAULT_GAME_ELEMENT_WIDTH, row * DEFAULT_GAME_ELEMENT_HEIGHT);
+            window.Draw(superPillShape);
+          }
+          // Mur
+          else if (grid.GetGridElementAt(row, col) == PacmanElement.Mur)
+          {
+            wallSprite.Position = new Vector2f(col * DEFAULT_GAME_ELEMENT_WIDTH, row * DEFAULT_GAME_ELEMENT_HEIGHT);
+            window.Draw(wallSprite);
+          }
+        }
+      }
 
-      //// Les 4 fantômes
-      //for (int i = 0; i < NB_GHOSTS; i++)
-      //{
-      //  if (ghosts[i] != null)
-      //    ghosts[i].Draw(window, SuperPillActive);
-      //}
+      // Les 4 fantômes
+      for (int i = 0; i < NB_GHOSTS; i++)
+      {
+        if (ghosts[i] != null)
+          ghosts[i].Draw(window, false);
+        //ghosts[i].Draw(window, SuperPillActive);
+      }
 
-      //// Le pacman
-      //if (null != pacman)
-      //  pacman.Draw(window);
+      // Le pacman
+      if (null != pacman)
+        pacman.Draw(window);
         
     }
   }
