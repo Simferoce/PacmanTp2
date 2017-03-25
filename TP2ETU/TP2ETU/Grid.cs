@@ -54,19 +54,19 @@ namespace TP2PROF
         /// Position originale du pacman
         /// </summary>
         // A compléter
-        private Vector2i pacmanOriginPosition;
+        private Vector2i pacmanOriginalPosition;
         /// <summary>
         /// Accesseur du numéro de la ligne où se trouve le pacman au début
         /// Propriété c#
         /// </summary>
         // A compléter
-        public int PacmanOriginPositionRow
+        public int PacmanOriginalPositionRow
         {
             get
             {
                 if (elements == null)
                     return -1;
-                return pacmanOriginPosition.Y;
+                return pacmanOriginalPosition.Y;
             }
         }
 
@@ -75,13 +75,13 @@ namespace TP2PROF
         /// Propriété C#
         /// </summary>
         // A compléter
-        public int PacmanOriginPositionColumn
+        public int PacmanOriginalPositionColumn
         {
             get
             {
                 if (elements == null)
                     return -1;
-                return pacmanOriginPosition.X;
+                return pacmanOriginalPosition.X;
             }
         }
 
@@ -168,7 +168,7 @@ namespace TP2PROF
                         {
                             if (!pacmanFound)
                             {
-                                pacmanOriginPosition = new Vector2i(j, i);
+                                pacmanOriginalPosition = new Vector2i(j, i);
                                 pacmanFound = true;
                             }
                             else
@@ -190,7 +190,7 @@ namespace TP2PROF
                         }
                     }
                 }
-                if (pacmanOriginPosition == null || ghostCagePosition == null)
+                if (pacmanOriginalPosition == null || ghostCagePosition == null)
                 {
                     retval = false;
                 }

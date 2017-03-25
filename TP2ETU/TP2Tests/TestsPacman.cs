@@ -14,146 +14,146 @@ namespace TP2Tests
     // ppoulin
     // A DECOMMENTER LORSQUE LE CODE AURA ÉTÉ PRODUIT
 
-    //    /// <summary>
-    //    /// Teste la création d'un pacman à une position donnée
-    //    /// </summary>
-    //    [TestMethod]
-    //    public void TestConstructeur01()
-    //    {
-    //      // Mise en place des données
-    //      // Appel de la méthode à tester
-    //      Pacman pacman = new Pacman(20, 10);
+        /// <summary>
+        /// Teste la création d'un pacman à une position donnée
+        /// </summary>
+        [TestMethod]
+        public void TestConstructeur01()
+        {
+          // Mise en place des données
+          // Appel de la méthode à tester
+          Pacman pacman = new Pacman(20, 10);
 
-    //      // Validation des résultats
-    //      Assert.AreEqual(10, pacman.Column);
-    //      Assert.AreEqual(20, pacman.Row);
-    //      // Clean-up
-    //    }
+          // Validation des résultats
+          Assert.AreEqual(10, pacman.Column);
+          Assert.AreEqual(20, pacman.Row);
+          // Clean-up
+        }
 
-    //    const string VALID_LEVEL_01 = @"
-    //1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1;
-    //1,1,0,4,4,4,4,4,4,4,1,4,4,4,4,4,4,4,4,1,1;
-    //1,1,5,1,1,4,1,1,1,4,1,4,1,1,1,4,1,1,5,1,1;
-    //1,1,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,1,1;
-    //1,1,4,1,1,4,1,4,1,1,1,1,1,4,1,4,1,1,4,1,1;
-    //1,1,4,4,4,4,1,4,4,4,1,4,4,4,1,4,4,4,4,1,1;
-    //1,1,1,1,1,4,1,1,1,4,1,4,1,1,1,4,1,1,1,1,1;
-    //1,1,1,1,1,4,1,4,4,4,4,4,4,4,1,4,1,1,1,1,1;
-    //1,1,1,1,1,4,1,4,1,1,2,1,1,4,1,4,1,1,1,1,1;
-    //1,1,1,4,4,4,4,4,1,2,2,2,1,4,4,4,4,4,1,1,1;
-    //1,1,1,1,1,4,1,4,1,1,6,1,1,4,1,4,1,1,1,1,1;
-    //1,1,1,1,1,4,1,4,1,1,1,1,1,4,1,4,1,1,1,1,1;
-    //1,1,1,1,1,4,1,4,4,4,4,4,4,4,1,4,1,1,1,1,1;
-    //1,1,1,1,1,4,1,4,1,1,1,1,1,4,1,4,1,1,1,1,1;
-    //1,1,4,4,4,4,4,4,4,4,1,4,4,4,4,4,4,4,4,1,1;
-    //1,1,4,1,1,4,1,1,1,4,1,4,1,1,1,4,1,1,4,1,1;
-    //1,1,4,4,1,4,4,4,4,4,3,1,4,4,4,4,1,4,4,1,1;
-    //1,1,1,4,1,4,1,4,1,1,1,1,1,4,1,4,1,4,1,1,1;
-    //1,1,4,4,4,4,1,4,4,4,1,4,4,4,1,4,4,4,4,1,1;
-    //1,1,5,1,1,1,1,1,1,4,1,4,1,1,1,1,1,1,5,1,1;
-    //1,1,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,1,1;
-    //1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1";
+        const string VALID_LEVEL_01 = @"
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1;
+    1,1,0,4,4,4,4,4,4,4,1,4,4,4,4,4,4,4,4,1,1;
+    1,1,5,1,1,4,1,1,1,4,1,4,1,1,1,4,1,1,5,1,1;
+    1,1,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,1,1;
+    1,1,4,1,1,4,1,4,1,1,1,1,1,4,1,4,1,1,4,1,1;
+    1,1,4,4,4,4,1,4,4,4,1,4,4,4,1,4,4,4,4,1,1;
+    1,1,1,1,1,4,1,1,1,4,1,4,1,1,1,4,1,1,1,1,1;
+    1,1,1,1,1,4,1,4,4,4,4,4,4,4,1,4,1,1,1,1,1;
+    1,1,1,1,1,4,1,4,1,1,2,1,1,4,1,4,1,1,1,1,1;
+    1,1,1,4,4,4,4,4,1,2,2,2,1,4,4,4,4,4,1,1,1;
+    1,1,1,1,1,4,1,4,1,1,6,1,1,4,1,4,1,1,1,1,1;
+    1,1,1,1,1,4,1,4,1,1,1,1,1,4,1,4,1,1,1,1,1;
+    1,1,1,1,1,4,1,4,4,4,4,4,4,4,1,4,1,1,1,1,1;
+    1,1,1,1,1,4,1,4,1,1,1,1,1,4,1,4,1,1,1,1,1;
+    1,1,4,4,4,4,4,4,4,4,1,4,4,4,4,4,4,4,4,1,1;
+    1,1,4,1,1,4,1,1,1,4,1,4,1,1,1,4,1,1,4,1,1;
+    1,1,4,4,1,4,4,4,4,4,3,1,4,4,4,4,1,4,4,1,1;
+    1,1,1,4,1,4,1,4,1,1,1,1,1,4,1,4,1,4,1,1,1;
+    1,1,4,4,4,4,1,4,4,4,1,4,4,4,1,4,4,4,4,1,1;
+    1,1,5,1,1,1,1,1,1,4,1,4,1,1,1,1,1,1,5,1,1;
+    1,1,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,1,1;
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1";
 
-    //    /// <summary>
-    //    /// Teste le déplacement invalide du pacman vers la droite
-    //    /// </summary>
-    //    [TestMethod]
-    //    public void TestMoveInvalid01()
-    //    {
-    //      // Mise en place des données      
-    //      Grid grid = new Grid();
-    //      grid.LoadFromMemory(VALID_LEVEL_01);
-    //      Pacman pacman = new Pacman(grid.PacmanOriginalPositionRow, grid.PacmanOriginalPositionColumn);
+        /// <summary>
+        /// Teste le déplacement invalide du pacman vers la droite
+        /// </summary>
+        [TestMethod]
+        public void TestMoveInvalid01()
+        {
+          // Mise en place des données      
+          Grid grid = new Grid();
+          grid.LoadFromMemory(VALID_LEVEL_01);
+          Pacman pacman = new Pacman(grid.PacmanOriginalPositionRow, grid.PacmanOriginalPositionColumn);
 
-    //      // Appel de la méthode à tester
-    //      pacman.Move(Direction.East, grid);
+        // Appel de la méthode à tester
+         pacman.Move(Direction.East, grid);
 
-    //      // Validation des résultats
-    //      Assert.AreEqual(grid.PacmanOriginalPositionRow, pacman.Row);
-    //      Assert.AreEqual(grid.PacmanOriginalPositionColumn, pacman.Column);
-    //      // Clean-up
-    //    }
-    //    /// <summary>
-    //    /// Teste le déplacement invalide du pacman vers le haut
-    //    /// </summary>
-    //    [TestMethod]
-    //    public void TestMoveInvalid02()
-    //    {
-    //      // Mise en place des données      
-    //      Grid grid = new Grid();
-    //      grid.LoadFromMemory(VALID_LEVEL_01);
-    //      Pacman pacman = new Pacman(grid.PacmanOriginalPositionRow, grid.PacmanOriginalPositionColumn);
+          // Validation des résultats
+          Assert.AreEqual(grid.PacmanOriginalPositionRow, pacman.Row);
+          Assert.AreEqual(grid.PacmanOriginalPositionColumn, pacman.Column);
+          // Clean-up
+        }
+        /// <summary>
+        /// Teste le déplacement invalide du pacman vers le haut
+        /// </summary>
+        [TestMethod]
+        public void TestMoveInvalid02()
+        {
+          // Mise en place des données      
+          Grid grid = new Grid();
+          grid.LoadFromMemory(VALID_LEVEL_01);
+          Pacman pacman = new Pacman(grid.PacmanOriginalPositionRow, grid.PacmanOriginalPositionColumn);
 
-    //      // Appel de la méthode à tester
-    //      pacman.Move(Direction.North, grid);
+          // Appel de la méthode à tester
+          pacman.Move(Direction.North, grid);
 
-    //      // Validation des résultats
-    //      Assert.AreEqual(grid.PacmanOriginalPositionRow, pacman.Row);
-    //      Assert.AreEqual(grid.PacmanOriginalPositionColumn, pacman.Column);
-    //      // Clean-up
-    //    }
-    //    /// <summary>
-    //    /// Teste le déplacement invalide du pacman vers le bas
-    //    /// </summary>
-    //    [TestMethod]
-    //    public void TestMoveInvalid03()
-    //    {
-    //      // Mise en place des données      
-    //      Grid grid = new Grid();
-    //      grid.LoadFromMemory(VALID_LEVEL_01);
-    //      Pacman pacman = new Pacman(grid.PacmanOriginalPositionRow, grid.PacmanOriginalPositionColumn);
+          // Validation des résultats
+          Assert.AreEqual(grid.PacmanOriginalPositionRow, pacman.Row);
+          Assert.AreEqual(grid.PacmanOriginalPositionColumn, pacman.Column);
+          // Clean-up
+        }
+        /// <summary>
+        /// Teste le déplacement invalide du pacman vers le bas
+        /// </summary>
+        [TestMethod]
+        public void TestMoveInvalid03()
+        {
+          // Mise en place des données      
+          Grid grid = new Grid();
+          grid.LoadFromMemory(VALID_LEVEL_01);
+          Pacman pacman = new Pacman(grid.PacmanOriginalPositionRow, grid.PacmanOriginalPositionColumn);
 
-    //      // Appel de la méthode à tester
-    //      pacman.Move(Direction.South, grid);
+          // Appel de la méthode à tester
+          pacman.Move(Direction.South, grid);
 
-    //      // Validation des résultats
-    //      Assert.AreEqual(grid.PacmanOriginalPositionRow, pacman.Row);
-    //      Assert.AreEqual(grid.PacmanOriginalPositionColumn, pacman.Column);
-    //      // Clean-up
-    //    }
+          // Validation des résultats
+          Assert.AreEqual(grid.PacmanOriginalPositionRow, pacman.Row);
+          Assert.AreEqual(grid.PacmanOriginalPositionColumn, pacman.Column);
+          // Clean-up
+        }
 
-    //    const string VALID_LEVEL_02 = @"
-    //1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1;
-    //1,1,0,4,4,4,4,4,4,4,1,4,4,4,4,4,4,4,4,1,1;
-    //1,1,5,1,1,4,1,1,1,4,1,4,1,1,1,4,1,1,5,1,1;
-    //1,1,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,1,1;
-    //1,1,4,1,1,4,1,4,1,1,1,1,1,4,1,4,1,1,4,1,1;
-    //1,1,4,4,4,4,1,4,4,4,1,4,4,4,1,4,4,4,4,1,1;
-    //1,1,1,1,1,4,1,1,1,4,1,4,1,1,1,4,1,1,1,1,1;
-    //1,1,1,1,1,4,1,4,4,4,4,4,4,4,1,4,1,1,1,1,1;
-    //1,1,1,1,1,4,1,4,1,1,2,1,1,4,1,4,1,1,1,1,1;
-    //1,1,1,4,4,4,4,4,1,2,3,2,1,4,4,4,4,4,1,1,1;
-    //1,1,1,1,1,4,1,4,1,1,6,1,1,4,1,4,1,1,1,1,1;
-    //1,1,1,1,1,4,1,4,1,1,1,1,1,4,1,4,1,1,1,1,1;
-    //1,1,1,1,1,4,1,4,4,4,4,4,4,4,1,4,1,1,1,1,1;
-    //1,1,1,1,1,4,1,4,1,1,1,1,1,4,1,4,1,1,1,1,1;
-    //1,1,4,4,4,4,4,4,4,4,1,4,4,4,4,4,4,4,4,1,1;
-    //1,1,4,1,1,4,1,1,1,4,1,4,1,1,1,4,1,1,4,1,1;
-    //1,1,4,4,1,4,4,4,4,4,4,1,4,4,4,4,1,4,4,1,1;
-    //1,1,1,4,1,4,1,4,1,1,1,1,1,4,1,4,1,4,1,1,1;
-    //1,1,4,4,4,4,1,4,4,4,1,4,4,4,1,4,4,4,4,1,1;
-    //1,1,5,1,1,1,1,1,1,4,1,4,1,1,1,1,1,1,5,1,1;
-    //1,1,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,1,1;
-    //1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1";
-    //    /// <summary>
-    //    /// Teste le déplacement invalide du pacman vers la cage à fantômes
-    //    /// </summary>
-    //    [TestMethod]
-    //    public void TestMoveInvalid04()
-    //    {
-    //      // Mise en place des données      
-    //      Grid grid = new Grid();
-    //      grid.LoadFromMemory(VALID_LEVEL_02);
-    //      Pacman pacman = new Pacman(grid.PacmanOriginalPositionRow, grid.PacmanOriginalPositionColumn);
+        const string VALID_LEVEL_02 = @"
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1;
+    1,1,0,4,4,4,4,4,4,4,1,4,4,4,4,4,4,4,4,1,1;
+    1,1,5,1,1,4,1,1,1,4,1,4,1,1,1,4,1,1,5,1,1;
+    1,1,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,1,1;
+    1,1,4,1,1,4,1,4,1,1,1,1,1,4,1,4,1,1,4,1,1;
+    1,1,4,4,4,4,1,4,4,4,1,4,4,4,1,4,4,4,4,1,1;
+    1,1,1,1,1,4,1,1,1,4,1,4,1,1,1,4,1,1,1,1,1;
+    1,1,1,1,1,4,1,4,4,4,4,4,4,4,1,4,1,1,1,1,1;
+    1,1,1,1,1,4,1,4,1,1,2,1,1,4,1,4,1,1,1,1,1;
+    1,1,1,4,4,4,4,4,1,2,3,2,1,4,4,4,4,4,1,1,1;
+    1,1,1,1,1,4,1,4,1,1,6,1,1,4,1,4,1,1,1,1,1;
+    1,1,1,1,1,4,1,4,1,1,1,1,1,4,1,4,1,1,1,1,1;
+    1,1,1,1,1,4,1,4,4,4,4,4,4,4,1,4,1,1,1,1,1;
+    1,1,1,1,1,4,1,4,1,1,1,1,1,4,1,4,1,1,1,1,1;
+    1,1,4,4,4,4,4,4,4,4,1,4,4,4,4,4,4,4,4,1,1;
+    1,1,4,1,1,4,1,1,1,4,1,4,1,1,1,4,1,1,4,1,1;
+    1,1,4,4,1,4,4,4,4,4,4,1,4,4,4,4,1,4,4,1,1;
+    1,1,1,4,1,4,1,4,1,1,1,1,1,4,1,4,1,4,1,1,1;
+    1,1,4,4,4,4,1,4,4,4,1,4,4,4,1,4,4,4,4,1,1;
+    1,1,5,1,1,1,1,1,1,4,1,4,1,1,1,1,1,1,5,1,1;
+    1,1,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,1,1;
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1";
+        /// <summary>
+        /// Teste le déplacement invalide du pacman vers la cage à fantômes
+        /// </summary>
+        [TestMethod]
+        public void TestMoveInvalid04()
+        {
+          // Mise en place des données      
+          Grid grid = new Grid();
+          grid.LoadFromMemory(VALID_LEVEL_02);
+          Pacman pacman = new Pacman(grid.PacmanOriginalPositionRow, grid.PacmanOriginalPositionColumn);
 
-    //      // Appel de la méthode à tester
-    //      pacman.Move(Direction.South, grid);
+          // Appel de la méthode à tester
+          pacman.Move(Direction.South, grid);
 
-    //      // Validation des résultats
-    //      Assert.AreEqual(grid.PacmanOriginalPositionRow, pacman.Row);
-    //      Assert.AreEqual(grid.PacmanOriginalPositionColumn, pacman.Column);
-    //      // Clean-up
-    //    }
+          // Validation des résultats
+          Assert.AreEqual(grid.PacmanOriginalPositionRow, pacman.Row);
+          Assert.AreEqual(grid.PacmanOriginalPositionColumn, pacman.Column);
+          // Clean-up
+        }
 
     /// <summary>
     /// Teste le déplacement valide du pacman vers la gauche
