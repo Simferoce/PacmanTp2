@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SFML.System;
 namespace TP2PROF
 {
+    //simon
   public class Grid
   {
         /// <summary>
@@ -133,7 +134,7 @@ namespace TP2PROF
     /// <returns>true si le chargement est correct, false sinon</returns>
     public bool LoadFromMemory(string content)
     {
-            elements = new PacmanElement[22, 21];
+            elements = new PacmanElement[PacmanGame.DEFAULT_GAME_HEIGHT, PacmanGame.DEFAULT_GAME_WIDTH];
             for(int i =0; i < Height; i++)
             {
                 for(int j =0; j < Width; j++)

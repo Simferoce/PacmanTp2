@@ -71,7 +71,7 @@ namespace TP2Tests
     /// pour différents scénarios: chemins existants, chemins 
     /// inexistants (ex. à partie ou dans un mur!)
     /// </summary>
-    [TestMethod]
+    /*[TestMethod]
     public void TestComputeCost_01()
     {
       Grid aGrid = new Grid();
@@ -103,7 +103,7 @@ namespace TP2Tests
         }
       }    
     }
-    
+    */
     /// <summary>
     /// Test de calcul d'une direction lorsque le point de départ
     /// est le même que le point d'arrivée.

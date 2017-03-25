@@ -8,7 +8,7 @@ namespace TP2PROF
 {
   // ppoulin
   // Complétez la déclaration du type énuméré Direction  
-  enum Direction
+  public enum Direction
   {
     None,
     Undefined,
