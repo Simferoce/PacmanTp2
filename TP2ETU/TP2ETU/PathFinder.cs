@@ -49,7 +49,7 @@ namespace TP2PROF
     /// est déjà rendu ou Direction.Undefined s'il est impossible d'atteindre la cible</returns>
     /// </summary>
     // A COMPLÉTER  Méthode FindShortestPath
-    static Direction FindShortestPath(Grid aGrid,int fromX,int fromY,int toX,int toY)
+    public static Direction FindShortestPath(Grid aGrid,int fromX,int fromY,int toX,int toY)
     {
 
       int[,] costs = InitCosts(aGrid, fromX, fromY);
