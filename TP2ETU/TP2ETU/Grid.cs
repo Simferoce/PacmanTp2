@@ -167,7 +167,7 @@ namespace TP2PROF
                         {
                             if (!pacmanFound)
                             {
-                                pacmanOriginPosition = new Vector2i(i, j);
+                                pacmanOriginPosition = new Vector2i(j, i);
                                 pacmanFound = true;
                             }
                             else
@@ -179,7 +179,7 @@ namespace TP2PROF
                         {
                             if(!cageFound)
                             {
-                                ghostCagePosition = new Vector2i(i, j);
+                                ghostCagePosition = new Vector2i(j, i);
                                 cageFound = true;
                             }
                             else

@@ -20,15 +20,18 @@ namespace TP2PROF
     // A COMPLÉTER  Méthode InitCosts
     static public int[,]   InitCosts(Grid aGrid,int fromX,int fromY)
     {
+
       int[,] costs = new int[aGrid.Height, aGrid.Width];
-      for (int i = 0; i < costs.GetLength(0) - 1; i++)
+      costs[fromY, fromX] = 0;
+      for (int i = 0; i < costs.GetLength(0); i++)
       {
-        for (int j = 0; j < costs.GetLength(1)-1 ; j++)
+        for (int j = 0; j < costs.GetLength(1) ; j++)
         {
+          if ((j!=fromX)|| (i != fromY))
           costs[i,j] = int.MaxValue;
         }
       }
-      costs[fromY, fromX] = 0;
+      
       return costs;
     }
 
@@ -78,61 +81,96 @@ namespace TP2PROF
     // A COMPLÉTER  Méthode ComputeCosts
     static public void ComputeCosts(Grid aGrid,int fromX,int fromY,int toX,int toY,int[,] costs)
     {
-      if (costs[toY, toX] == costs[fromY, fromX])
-      {
+      bool bas = false;
+      bool haut = false;
+      bool droite = false;
+      bool gauche = false;
+      
 
-        if (costs.GetLength(0)-1>=fromY+1)
-        { 
-           if (aGrid.GetGridElementAt(fromY+1,fromX)!=PacmanElement.Mur)
-           {
-             if(costs[fromY+1,fromX]<costs[fromY,fromX])
-             {
-              costs[fromY + 1, fromX] = costs[fromY, fromX]+1;
-              ComputeCosts(aGrid,fromX,fromY+1,toX,toY,costs);
-             }
-           }
+        if ((costs.GetLength(0) - 1 >= fromY + 1))
+        {
+          if (aGrid.GetGridElementAt(fromY + 1, fromX) != PacmanElement.Mur)
+            bas = true;
+        }
+        if ((0 <= fromY - 1) )
+        {
+          if (aGrid.GetGridElementAt(fromY - 1, fromX) != PacmanElement.Mur)
+            haut = true;
+        }
+        if ((costs.GetLength(1) - 1 >= fromX + 1) )
+        {
+          if (aGrid.GetGridElementAt(fromY, fromX + 1) != PacmanElement.Mur)
+            droite = true;
         }
 
-        if (0 <= fromY - 1)
+        if ((0 <= fromX - 1))
         {
-          if (aGrid.GetGridElementAt(fromY-1, fromX) != PacmanElement.Mur)
+          if (aGrid.GetGridElementAt(fromY, fromX - 1) != PacmanElement.Mur)
+            gauche = true;
+        }
+        if ((fromX ==toX) && ( fromY==toY))
+        {
+          bas = false;
+          haut = false;
+          droite = false;
+          gauche = false;
+
+        }
+        if (bas == true)
+        {
+
+          if ((costs[fromY, fromX] + 1 < costs[fromY + 1, fromX]))
           {
-            if (costs[fromY - 1, fromX] < costs[fromY, fromX])
-            {
-              costs[fromY - 1, fromX] = costs[fromY, fromX] + 1;
-              ComputeCosts(aGrid, fromX, fromY - 1, toX, toY, costs);
-            }
+            
+              costs[fromY + 1, fromX] = (costs[fromY, fromX]) + 1;
+            ComputeCosts(aGrid, fromX, fromY + 1, toX, toY, costs);
+          }
+
+        }
+
+
+        if (haut == true)
+        {
+          if ((costs[fromY, fromX] + 1 < costs[fromY - 1, fromX]))
+          {
+            
+             costs[fromY - 1, fromX] = costs[fromY, fromX] + 1;
+            ComputeCosts(aGrid, fromX, fromY - 1, toX, toY, costs);
           }
         }
 
-        if (costs.GetLength(1) - 1 >= fromX + 1)
+
+
+
+        if (droite == true)
         {
-          if (aGrid.GetGridElementAt(fromY, fromX+1) != PacmanElement.Mur)
+          if (costs[fromY, fromX] + 1 < costs[fromY, fromX + 1])
           {
-            if (costs[fromY, fromX+1] < costs[fromY, fromX])
-            {
-              costs[fromY, fromX+1] = costs[fromY, fromX] + 1;
-              ComputeCosts(aGrid, fromX+1, fromY, toX, toY, costs);
-            }
+              costs[fromY, fromX + 1] = costs[fromY, fromX] + 1;
+            ComputeCosts(aGrid, fromX + 1, fromY, toX, toY, costs);
           }
         }
 
-        if (0 <= fromX - 1)
+
+        if (gauche == true)
         {
-          if (aGrid.GetGridElementAt(fromY, fromX-1) != PacmanElement.Mur)
+          if (costs[fromY, fromX] + 1 < costs[fromY, fromX - 1])
           {
-            if (costs[fromY, fromX-1] < costs[fromY, fromX])
-            {
-              costs[fromY, fromX-1] = costs[fromY, fromX] + 1;
-              ComputeCosts(aGrid, fromX-1, fromY, toX, toY, costs);
-            }
+            
+              costs[fromY, fromX - 1] = costs[fromY, fromX] + 1;
+            ComputeCosts(aGrid, fromX - 1, fromY, toX, toY, costs);
           }
         }
 
-      }
+
+
+
+      
 
 
     }
+
+  
 
 
 
