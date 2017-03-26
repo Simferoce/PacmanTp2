@@ -8,6 +8,7 @@ namespace TP2Tests
   /// <summary>
   /// Description résumée pour TestsPacman
   /// </summary>
+  //srobidas
   [TestClass]
   public class TestsGhost
   {
