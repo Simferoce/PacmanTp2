@@ -11,7 +11,7 @@ namespace TP2Tests
   [TestClass]
   public class TestsPacman
   {
-    // ppoulin
+    // vbouchard
     // A DECOMMENTER LORSQUE LE CODE AURA ÉTÉ PRODUIT
 
         /// <summary>

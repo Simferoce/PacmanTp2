@@ -101,7 +101,6 @@ namespace TP2PROF
       if (retval)
       {
         string fileContent = System.IO.File.ReadAllText(path);
-        // vBouchard
         // Appelez la méthode LoadFromMemory ici
         // A COMPLETER
          retval = grid.LoadFromMemory(fileContent);
@@ -148,24 +147,24 @@ namespace TP2PROF
     /// mangé par un fantôme</returns>
     public EndGameResult Update(Keyboard.Key key)
     {
-      
+      //vbouchard
       
       // Déplacement du joueur
       if (key == Keyboard.Key.Left)
       {
-        // A COMPLETER      
+        pacman.Move(Direction.West, grid);
       }
       else if (key == Keyboard.Key.Right)
       {
-        // A COMPLETER    
+        pacman.Move(Direction.East, grid);
       }
       else if (key == Keyboard.Key.Up)
       {
-        // A COMPLETER    
+        pacman.Move(Direction.North, grid);
       }
       else if (key == Keyboard.Key.Down)
       {
-        // A COMPLETER    
+        pacman.Move(Direction.South, grid);
       }
 
 

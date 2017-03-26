@@ -4,27 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SFML.System;
+using System.Timers;
 using SFML.Graphics;
 namespace TP2PROF
 {
   public class Pacman
   {
+    //vbouchard
     /// <summary>
     /// Position du pacman
     /// </summary>
-    private Vector2i positionPacman;
+    private Vector2i position;
     /// <summary>
     /// Accesseur de la position en colonne
     /// Propriété C#
     /// </summary>
-    public int Column { get { if (positionPacman == null) { return -1; } else { return this.positionPacman.X; } } }
+    public int Column { get { if (position == null) { return -1; } else { return this.position.X; } } }
     /// <summary>
     /// Accesseur de la position en ligne
     /// Propriété C#
     /// </summary>
-    public int Row { get { if (positionPacman == null) { return -1; } else { return this.positionPacman.Y; } } }
+    public int Row { get { if (position == null) { return -1; } else { return this.position.Y; } } }
 
-
+    private int pacmanUpdatefrquency = 5;
     // Propriétés SFML pour l'affichage
     Texture pacmanTexture = new Texture("Assets/Pacman.bmp");
     Sprite pacmanSprite = null;
@@ -41,8 +43,8 @@ namespace TP2PROF
       // Ne pas oublier de lancer une exception si les paramètres sont invalides
       try 
       {
-        positionPacman.Y = row;
-        positionPacman.X = column;
+        position.Y = row;
+        position.X = column;
       }
       catch(ArgumentOutOfRangeException)
       {
@@ -61,42 +63,49 @@ namespace TP2PROF
     // A COMPLETER MÉTHODE MOVE
     public void Move(Direction direction,Grid grid)
     {
-      if (direction==Direction.North)
-      {
-        if (grid.GetGridElementAt(positionPacman.Y-1,positionPacman.X)!=PacmanElement.Mur)
+      
+      
+      
+        if (direction == Direction.North)
         {
-          grid.SetGridElementAt(positionPacman.Y - 1, positionPacman.X, PacmanElement.PacMan);
-          grid.SetGridElementAt(positionPacman.Y, positionPacman.X,PacmanElement.Rien);
-
+          if (grid.GetGridElementAt(position.Y - 1, position.X) != PacmanElement.Mur)
+          {
+            position.Y = position.Y - 1;
+            pacmanSprite.Rotation = -90;
+           
+          }
         }
-      }
 
-      if (direction == Direction.South)
-      {
-        if (grid.GetGridElementAt(positionPacman.Y + 1, positionPacman.X) != PacmanElement.Mur)
+        if (direction == Direction.South)
         {
-          grid.SetGridElementAt(positionPacman.Y + 1, positionPacman.X, PacmanElement.PacMan);
-          grid.SetGridElementAt(positionPacman.Y, positionPacman.X, PacmanElement.Rien);
+          if (grid.GetGridElementAt(position.Y + 1, position.X) != PacmanElement.Mur)
+          {
+            position.Y = position.Y + 1;
+            pacmanSprite.Rotation = 90;
+           
+          }
         }
-      }
 
-      if (direction == Direction.East)
-      {
-        if (grid.GetGridElementAt(positionPacman.Y, positionPacman.X+1) != PacmanElement.Mur)
+        if (direction == Direction.East)
         {
-          grid.SetGridElementAt(positionPacman.Y, positionPacman.X+1, PacmanElement.PacMan);
-          grid.SetGridElementAt(positionPacman.Y, positionPacman.X, PacmanElement.Rien);
+          if (grid.GetGridElementAt(position.Y, position.X + 1) != PacmanElement.Mur)
+          {
+            position.X = position.X + 1;
+            pacmanSprite.Rotation = 0;
+            
+          }
         }
-      }
 
-      if (direction == Direction.West)
-      {
-        if (grid.GetGridElementAt(positionPacman.Y, positionPacman.X-1) != PacmanElement.Mur)
+        if (direction == Direction.West)
         {
-          grid.SetGridElementAt(positionPacman.Y, positionPacman.X-1, PacmanElement.PacMan);
-          grid.SetGridElementAt(positionPacman.Y, positionPacman.X, PacmanElement.Rien);
+          if (grid.GetGridElementAt(position.Y, position.X - 1) != PacmanElement.Mur)
+          {
+            position.X = position.X - 1;
+            pacmanSprite.Rotation = -180;
+            
+          }
         }
-      }
+      
     }
 
     /// <summary>
