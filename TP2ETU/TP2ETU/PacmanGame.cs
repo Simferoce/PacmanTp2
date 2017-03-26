@@ -63,6 +63,7 @@ namespace TP2PROF
     /// Propriété C#
     /// </summary>
     // A COMPLETER
+    private bool SuperPillActive=false;
 
     // Propriétés SFML pour l'affichage des pastilles et super-pastilles
     const float SMALL_PILL_RADIUS = DEFAULT_GAME_ELEMENT_HEIGHT/8;
@@ -73,7 +74,15 @@ namespace TP2PROF
     // Propriétés SFML pour l'affichage du labyrinthe
     Texture wallTexture = new Texture("Assets/Wall.bmp");
     Sprite wallSprite = null;
-
+    SoundBuffer chomp = new SoundBuffer("Assets/pacman_chomp.wav");
+    Sound chompSound = null;
+    SoundBuffer death = new SoundBuffer("Assets/pacman_death.wav");
+    Sound deathSound = null;
+    SoundBuffer eatGhost = new SoundBuffer("Assets/pacman_eatghost.wav");
+    Sound eatGhostSound = null;
+    SoundBuffer beginning = new SoundBuffer("Assets/pacman_beginning.wav");
+    public Sound beginningSound = null;
+    bool deadSoundStopped = false;
     /// <summary>
     /// Constructeur du jeu de Pacman
     /// </summary>
@@ -86,9 +95,13 @@ namespace TP2PROF
       // Initialisation SFML
       smallPillShape.Origin = new Vector2f((float)-(DEFAULT_GAME_ELEMENT_WIDTH- SMALL_PILL_RADIUS )/ 2, -(float)(DEFAULT_GAME_ELEMENT_HEIGHT- SMALL_PILL_RADIUS )/ 2);
       superPillShape.Origin = new Vector2f((float)-(DEFAULT_GAME_ELEMENT_WIDTH- SUPER_PILL_RADIUS) / 2, -(float)(DEFAULT_GAME_ELEMENT_HEIGHT- SUPER_PILL_RADIUS) / 2);
-      wallSprite = new Sprite(wallTexture);      
+      wallSprite = new Sprite(wallTexture);
+      chompSound = new Sound(chomp);
+      deathSound = new Sound(death);
+      eatGhostSound = new Sound(eatGhost);
+      beginningSound = new Sound(beginning);
     }
-    
+     
     /// <summary>
     /// Charge un fichier de labyrinthe.
     /// </summary>
@@ -97,7 +110,6 @@ namespace TP2PROF
     public bool LoadGrid(string path)
     {
       bool retval = System.IO.File.Exists(path);
-
       if (retval)
       {
         string fileContent = System.IO.File.ReadAllText(path);
@@ -147,7 +159,6 @@ namespace TP2PROF
     /// mangé par un fantôme</returns>
     public EndGameResult Update(Keyboard.Key key)
     {
-      //vbouchard
       
       // Déplacement du joueur
       if (key == Keyboard.Key.Left)
@@ -177,26 +188,58 @@ namespace TP2PROF
 
 
       // Gestion des collisions avec le pacman
-      // A COMPLETER    
-
-
-
+      // A COMPLETER
+          
 
       // Vérification du ramassage d'une pastille
-      // A COMPLETER    
-
-
-
-
+      if (grid.GetGridElementAt(pacman.Row, pacman.Column) == PacmanElement.Pastille)
+      {
+       if( chompSound.Status == SoundStatus.Stopped)
+       {
+          chompSound.Play();         
+       }
+       grid.SetGridElementAt(pacman.Row, pacman.Column, PacmanElement.Rien);
+      }
+      
       // Vérification de l'activation d'un superpill
-      // A COMPLETER    
-
-
-
+      if (grid.GetGridElementAt(pacman.Row, pacman.Column) == PacmanElement.SuperPastille)
+      {
+        grid.SetGridElementAt(pacman.Row, pacman.Column, PacmanElement.Rien);
+      }      
 
       // Validations de fin de partie
-      // A COMPLETER car il faut que la partie finisse s'il ne reste plus de pastille
+      //Il faut que la partie finisse s'il ne reste plus de pastille
+      if ( CountNbPillsRemaining()==0)
+      {
+         return EndGameResult.Win;
+      }
+
       // ou si le pacman a été mangé par un fantôme
+      for (int i = 0; i < NB_GHOSTS-1; i++)
+      {
+        if ((pacman.Column == ghosts[i].Column) && pacman.Row==ghosts[i].Row) 
+        {
+          if (SuperPillActive)
+          {
+            if (eatGhostSound.Status == SoundStatus.Stopped)
+            {
+              eatGhostSound.Play();
+            }
+          }
+          else 
+          {
+            if ((deathSound.Status == SoundStatus.Stopped) && deadSoundStopped==false)
+            {
+              deathSound.Play();
+              deadSoundStopped=true;
+              
+            }
+            if (deathSound.Status == SoundStatus.Stopped)
+            return EndGameResult.Losse;
+          }
+        }
+      }
+
       return EndGameResult.NotFinished;
     }
 
@@ -205,8 +248,21 @@ namespace TP2PROF
     /// </summary>
     /// <returns>Le nombre de pastille non encore ramassées</returns>
     // A COMPLETER    
-
-
+    private int CountNbPillsRemaining()
+    {
+      int nbpillsRemaining=0;
+      for (int i = 0; i < grid.Height-1; i++)
+      {
+        for (int j = 0; j < grid.Width-1; j++)
+        {
+            if(grid.GetGridElementAt(i,j)==PacmanElement.Pastille)
+            {
+              nbpillsRemaining++;
+            }
+        }
+      }
+      return nbpillsRemaining;
+    }
 
 
     /// <summary>
@@ -247,9 +303,8 @@ namespace TP2PROF
       // Les 4 fantômes
       for (int i = 0; i < NB_GHOSTS; i++)
       {
-        if (ghosts[i] != null)
-          ghosts[i].Draw(window, false);
-        //ghosts[i].Draw(window, SuperPillActive);
+        if (ghosts[i] != null)        
+        ghosts[i].Draw(window, SuperPillActive);
       }
 
       // Le pacman

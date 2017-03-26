@@ -26,7 +26,9 @@ namespace TP2PROF
     /// </summary>
     public int Row { get { if (position == null) { return -1; } else { return this.position.Y; } } }
 
-    private int pacmanUpdatefrequency = 5;
+    private const int PACMAN_UPDATE_FREQUENCY = 5;
+
+    private  int pacmanUpdatefrequency= PACMAN_UPDATE_FREQUENCY;
     // Propriétés SFML pour l'affichage
     Texture pacmanTexture = new Texture("Assets/Pacman.bmp");
     Sprite pacmanSprite = null;
@@ -63,7 +65,7 @@ namespace TP2PROF
     // A COMPLETER MÉTHODE MOVE
     public void Move(Direction direction,Grid grid)
     {
-
+      
        pacmanUpdatefrequency--;
 
        if (pacmanUpdatefrequency<=0)
@@ -74,8 +76,8 @@ namespace TP2PROF
           {
             position.Y = position.Y - 1;
             pacmanSprite.Rotation = -90;
-            pacmanUpdatefrequency = 5;
           }
+          pacmanUpdatefrequency = PACMAN_UPDATE_FREQUENCY;
         }
 
         if (direction == Direction.South)
@@ -83,9 +85,9 @@ namespace TP2PROF
           if (grid.GetGridElementAt(position.Y + 1, position.X) != PacmanElement.Mur)
           {
             position.Y = position.Y + 1;
-            pacmanSprite.Rotation = 90;
-            pacmanUpdatefrequency = 5;
+            pacmanSprite.Rotation = 90;            
           }
+          pacmanUpdatefrequency = PACMAN_UPDATE_FREQUENCY;
         }
 
         if (direction == Direction.East)
@@ -93,20 +95,21 @@ namespace TP2PROF
           if (grid.GetGridElementAt(position.Y, position.X + 1) != PacmanElement.Mur)
           {
             position.X = position.X + 1;
-            pacmanSprite.Rotation = 0;
-            pacmanUpdatefrequency = 5;
+            pacmanSprite.Rotation = 0;           
           }
+          pacmanUpdatefrequency = PACMAN_UPDATE_FREQUENCY;
         }
 
         if (direction == Direction.West)
         {
           if (grid.GetGridElementAt(position.Y, position.X - 1) != PacmanElement.Mur)
           {
-            pacmanUpdatefrequency = 5;
+            
             position.X = position.X - 1;
             pacmanSprite.Rotation = -180;
             
           }
+          pacmanUpdatefrequency = PACMAN_UPDATE_FREQUENCY;
         }
       
          

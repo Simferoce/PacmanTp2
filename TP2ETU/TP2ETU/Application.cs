@@ -29,6 +29,7 @@ namespace TP2PROF
     public Application(string windowTitle)
     {
       game = new PacmanGame();
+      game.beginningSound.Play();
       window = new RenderWindow(new SFML.Window.VideoMode(PacmanGame.DEFAULT_GAME_WIDTH*PacmanGame.DEFAULT_GAME_ELEMENT_WIDTH, PacmanGame.DEFAULT_GAME_HEIGHT*PacmanGame.DEFAULT_GAME_ELEMENT_HEIGHT), windowTitle, Styles.Titlebar);
       window.Closed += new EventHandler(OnClose);
       window.KeyPressed += new EventHandler<KeyEventArgs>(OnKeyPressed);
