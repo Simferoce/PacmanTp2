@@ -220,18 +220,19 @@ namespace TP2PROF
        }
        grid.SetGridElementAt(pacman.Row, pacman.Column, PacmanElement.Rien);
       }
-      
-      // Vérification de l'activation d'un superpill
-      if (grid.GetGridElementAt(pacman.Row, pacman.Column) == PacmanElement.SuperPastille)
+
+        // Vérification de l'activation d'un superpill
+        #region Superpill srobidas
+        if (grid.GetGridElementAt(pacman.Row, pacman.Column) == PacmanElement.SuperPastille)
       {
         grid.SetGridElementAt(pacman.Row, pacman.Column, PacmanElement.Rien);
                 SuperPillActive = true;
                 tmSuperPastille.Start();
-      }      
-
-      // Validations de fin de partie
-      //Il faut que la partie finisse s'il ne reste plus de pastille
-      if ( CountNbPillsRemaining()==0)
+      }
+    #endregion
+            // Validations de fin de partie
+            //Il faut que la partie finisse s'il ne reste plus de pastille
+            if ( CountNbPillsRemaining()==0)
       {
          return EndGameResult.Win;
       }
