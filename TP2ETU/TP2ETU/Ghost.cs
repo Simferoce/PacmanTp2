@@ -147,9 +147,12 @@ namespace TP2PROF
     {
             // ppoulin
             // A compléter 
+            if (pacmanPosition.X == Column && pacmanPosition.Y == Row)
+                isWeak = true;
             if (!isSuperPillActive)
                 Move(PathFinder.FindShortestPath(grid, position.X, position.Y, pacmanPosition.X, pacmanPosition.Y), grid);
-            //else TO DO
-    }
+            else
+                Move(PathFinder.FindShortestPath(grid, position.X, position.Y, grid.GhostCagePositionColumn, grid.GhostCagePositionRow), grid);
+        }
   }
 }
