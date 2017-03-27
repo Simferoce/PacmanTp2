@@ -10,6 +10,10 @@ namespace TP2PROF
   public class Grid
   {
         /// <summary>
+        /// Niveau chargé
+        /// </summary>
+        bool isLevelLoad = false;
+        /// <summary>
         /// Grille logique du jeu.
         /// Tableau 2D de PacmanElement
         /// </summary>  
@@ -30,7 +34,7 @@ namespace TP2PROF
         {
             get
             {
-                if (elements == null)
+                if (!isLevelLoad)
                     return -1;
                 return ghostCagePosition.Y;
             }
@@ -44,7 +48,7 @@ namespace TP2PROF
         {
             get
             {
-                if (elements == null)
+                if (!isLevelLoad)
                     return -1;
                 return ghostCagePosition.X;
             }
@@ -64,7 +68,7 @@ namespace TP2PROF
         {
             get
             {
-                if (elements == null)
+                if (!isLevelLoad)
                     return -1;
                 return pacmanOriginalPosition.Y;
             }
@@ -79,7 +83,7 @@ namespace TP2PROF
         {
             get
             {
-                if (elements == null)
+                if (!isLevelLoad)
                     return -1;
                 return pacmanOriginalPosition.X;
             }
@@ -94,7 +98,7 @@ namespace TP2PROF
         {
             get
             {
-                if (elements == null)
+                if (!isLevelLoad)
                     return -1;
                 return elements.GetLength(0);
             }
@@ -109,7 +113,7 @@ namespace TP2PROF
         {
             get
             {
-                if (elements == null)
+                if (!isLevelLoad)
                     return -1;
                 return elements.GetLength(1);
             }
@@ -122,7 +126,7 @@ namespace TP2PROF
     // A compléter
     public Grid()
         {
-
+            elements = new PacmanElement[PacmanGame.DEFAULT_GAME_HEIGHT, PacmanGame.DEFAULT_GAME_WIDTH];
         }
 
 
@@ -134,7 +138,7 @@ namespace TP2PROF
     /// <returns>true si le chargement est correct, false sinon</returns>
     public bool LoadFromMemory(string content)
     {
-            elements = new PacmanElement[PacmanGame.DEFAULT_GAME_HEIGHT, PacmanGame.DEFAULT_GAME_WIDTH];
+            isLevelLoad = true;
             for(int i =0; i < Height; i++)
             {
                 for(int j =0; j < Width; j++)
@@ -146,7 +150,7 @@ namespace TP2PROF
             bool pacmanFound = false;
             bool cageFound = false;
             string[] temp1 = content.Split(';');
-                string[][] temp2 = new string[temp1.Length][];
+            string[][] temp2 = new string[temp1.Length][];
             // A compléter selon les spécifications du travail
             try
             {
@@ -159,12 +163,9 @@ namespace TP2PROF
                 {
                     for(int j = 0; j < temp2[0].Length; j++)
                     {
-                        if (j == 0)
-                        {
-                            temp2[i][j] = temp2[i][j].Trim();
-                        }
+                        temp2[i][j] = temp2[i][j].Trim();
                         elements[i, j] = (PacmanElement)int.Parse(temp2[i][j]);
-                        if(elements[i, j] == (PacmanElement)3)
+                        if(elements[i, j] == PacmanElement.PacMan)
                         {
                             if (!pacmanFound)
                             {
@@ -176,7 +177,7 @@ namespace TP2PROF
                                 retval = false;
                             }
                         }
-                        else if(elements[i, j] == (PacmanElement)6)
+                        else if(elements[i, j] == PacmanElement.Cage)
                         {
                             if(!cageFound)
                             {
@@ -191,21 +192,13 @@ namespace TP2PROF
                     }
                 }
                 if (pacmanOriginalPosition == null || ghostCagePosition == null)
-                {
                     retval = false;
-                }
                 else if(!(temp1.Length == Height && temp2[0].Length == Width))
-                {
                     retval = false;
-                }
                 else if(!pacmanFound)
-                {
                     retval = false;
-                }
                 else if(!cageFound)
-                {
                     retval = false;
-                }
             }
             
             catch
@@ -225,7 +218,7 @@ namespace TP2PROF
     // A compléter
     public PacmanElement GetGridElementAt(int row, int column)
         {
-            if(row >= Height || column >= Width)
+            if(row >= Height || column >= Width || row < 0 || column < 0)
             {
                 throw new ArgumentOutOfRangeException();
             }
@@ -244,7 +237,7 @@ namespace TP2PROF
     // A compléter
     public void SetGridElementAt(int row, int column, PacmanElement element)
         {
-            if (row >= Height || column >= Width)
+            if (row >= Height || column >= Width || row < 0 || column < 0)
             {
                 throw new ArgumentOutOfRangeException();
             }
