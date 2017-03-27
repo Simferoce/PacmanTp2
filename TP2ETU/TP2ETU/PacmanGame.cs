@@ -124,9 +124,9 @@ namespace TP2PROF
         if (true == retval)
         {
           int k = 0;
-          for (int i = 0; i < grid.Height-1; i++)
+          for (int i = 0; i < grid.Height; i++)
           {
-            for (int j = 0; j < grid.Width-1; j++)
+            for (int j = 0; j < grid.Width; j++)
             {
               // On parcourt la grille et, avec la méthode GetGridElementAt
               // On trouve les positions où il y a des fantômes
@@ -162,7 +162,7 @@ namespace TP2PROF
     /// mangé par un fantôme</returns>
     public EndGameResult Update(Keyboard.Key key)
     {
-      
+     
       j++;
       // Déplacement du joueur
       if (deadSoundStopped == false)
@@ -225,6 +225,7 @@ namespace TP2PROF
       if (grid.GetGridElementAt(pacman.Row, pacman.Column) == PacmanElement.SuperPastille)
       {
         grid.SetGridElementAt(pacman.Row, pacman.Column, PacmanElement.Rien);
+        SuperPillActive = true;
       }      
 
       // Validations de fin de partie
@@ -273,9 +274,9 @@ namespace TP2PROF
     private int CountNbPillsRemaining()
     {
       int nbpillsRemaining=0;
-      for (int i = 0; i < grid.Height-1; i++)
+      for (int i = 0; i < grid.Height; i++)
       {
-        for (int j = 0; j < grid.Width-1; j++)
+        for (int j = 0; j < grid.Width; j++)
         {
             if(grid.GetGridElementAt(i,j)==PacmanElement.Pastille)
             {

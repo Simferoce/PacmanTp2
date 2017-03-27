@@ -98,10 +98,10 @@ namespace TP2PROF
         {
             int deplacemenEnY = direction == Direction.North ? -1 : direction == Direction.South ? 1: 0;
             int deplacementEnX = direction == Direction.East ? 1 : direction == Direction.West ? -1 :0;
-            grid.SetGridElementAt(Row, Column, 0);
+      
             if (grid.GetGridElementAt(Row + deplacemenEnY, Column + deplacementEnX) != PacmanElement.Mur)
             {
-                grid.SetGridElementAt(Row + deplacemenEnY, Column + deplacementEnX, PacmanElement.Fantome);
+               
                 position.X = Column + deplacementEnX;
                 position.Y = Row + deplacemenEnY;
             }

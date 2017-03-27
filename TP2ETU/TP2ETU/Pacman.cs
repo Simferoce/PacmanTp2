@@ -26,9 +26,10 @@ namespace TP2PROF
     /// </summary>
     public int Row { get { if (position == null) { return -1; } else { return this.position.Y; } } }
 
-    private const int PACMAN_UPDATE_FREQUENCY = 3;
+    private const int PACMAN_UPDATE_FREQUENCY = 2;
 
     private  int pacmanUpdatefrequency= PACMAN_UPDATE_FREQUENCY;
+
     // Propriétés SFML pour l'affichage
     Texture pacmanTexture = new Texture("Assets/Pacman.bmp");
     Sprite pacmanSprite = null;
@@ -102,7 +103,7 @@ namespace TP2PROF
 
         if (direction == Direction.West)
         {
-          if (grid.GetGridElementAt(position.Y, position.X - 1) != PacmanElement.Mur)
+          if (grid.GetGridElementAt(position.Y, position.X -1) != PacmanElement.Mur)
           {
             
             position.X = position.X - 1;
