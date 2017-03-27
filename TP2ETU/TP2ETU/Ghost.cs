@@ -7,7 +7,7 @@ using SFML.Graphics;
 using SFML.System;
 namespace TP2PROF
 {
-    //simon
+    //srobidas
   public class Ghost
   {
         /// <summary>
@@ -23,7 +23,6 @@ namespace TP2PROF
         /// Accesseur de la position en ligne
         /// Propriété C#
         /// </summary>
-        private int? row;
         public int Row
         { get { if (position != null) return position.Y; else return -1; } }
         /// <summary>
