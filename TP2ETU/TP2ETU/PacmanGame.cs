@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using SFML.Graphics;
 using SFML.Window;
 using SFML.System;
@@ -56,6 +57,8 @@ namespace TP2PROF
     /// Durée d'activation d'une superpastille (en secondes)
     /// </summary>
     private const int SUPERPILL_ACTIVATION_TIME = 5;
+
+    int j = 0;
 
 
     /// <summary>
@@ -160,30 +163,47 @@ namespace TP2PROF
     public EndGameResult Update(Keyboard.Key key)
     {
       
+      j++;
       // Déplacement du joueur
-      if (key == Keyboard.Key.Left)
+      if (deadSoundStopped == false)
       {
-        pacman.Move(Direction.West, grid);
-      }
-      else if (key == Keyboard.Key.Right)
-      {
-        pacman.Move(Direction.East, grid);
-      }
-      else if (key == Keyboard.Key.Up)
-      {
-        pacman.Move(Direction.North, grid);
-      }
-      else if (key == Keyboard.Key.Down)
-      {
-        pacman.Move(Direction.South, grid);
+        if (key == Keyboard.Key.Left)
+        {
+          pacman.Move(Direction.West, grid);
+
+        }
+        else if (key == Keyboard.Key.Right)
+        {
+          pacman.Move(Direction.East, grid);
+        }
+        else if (key == Keyboard.Key.Up)
+        {
+          pacman.Move(Direction.North, grid);
+        }
+        else if (key == Keyboard.Key.Down)
+        {
+          pacman.Move(Direction.South, grid);
+        }
       }
 
 
 
 
       // Mise à jour des fantômes
-      // A COMPLETER    
+      // A COMPLETER 
 
+      
+
+        if(j==10)
+        {
+          for (int i = 0; i < NB_GHOSTS; i++)
+          {
+
+            ghosts[i].Update(grid, new Vector2i(pacman.Column, pacman.Row), SuperPillActive);
+            j = 0;
+          }
+        }
+      
 
 
 
@@ -242,6 +262,7 @@ namespace TP2PROF
 
       return EndGameResult.NotFinished;
     }
+
 
     /// <summary>
     /// Calcule le nombre de pastille non encore ramassées par le pacman

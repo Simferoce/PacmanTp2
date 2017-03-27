@@ -157,6 +157,7 @@ namespace TP2PROF
             if (!isSuperPillActive)
                 Move(PathFinder.FindShortestPath(grid, position.X, position.Y, pacmanPosition.X, pacmanPosition.Y), grid);
             //else TO DO
+        
     }
   }
 }
