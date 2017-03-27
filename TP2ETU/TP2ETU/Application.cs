@@ -2,6 +2,7 @@
 using SFML;
 using SFML.Graphics;
 using SFML.System;
+using System.Timers;
 using SFML.Window;
 
 namespace TP2PROF
