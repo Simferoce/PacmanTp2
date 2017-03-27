@@ -56,8 +56,8 @@ namespace TP2PROF
     /// <summary>
     /// Durée d'activation d'une superpastille (en secondes)
     /// </summary>
-    private const int SUPERPILL_ACTIVATION_TIME = 5;
-
+    private const int SUPERPILL_ACTIVATION_TIME = 5000;
+    Timer tmSuperPastille = new Timer(SUPERPILL_ACTIVATION_TIME);
     int j = 0;
 
 
@@ -66,7 +66,7 @@ namespace TP2PROF
     /// Propriété C#
     /// </summary>
     // A COMPLETER
-    private bool SuperPillActive=false;
+    private bool SuperPillActive = false;
 
     // Propriétés SFML pour l'affichage des pastilles et super-pastilles
     const float SMALL_PILL_RADIUS = DEFAULT_GAME_ELEMENT_HEIGHT/8;
@@ -91,10 +91,10 @@ namespace TP2PROF
     /// </summary>
     public PacmanGame()
     {
-      // A COMPLETER   
-      
+            // A COMPLETER   
 
 
+            tmSuperPastille.Elapsed += new ElapsedEventHandler(SetSuperPastilleToFalse);
       // Initialisation SFML
       smallPillShape.Origin = new Vector2f((float)-(DEFAULT_GAME_ELEMENT_WIDTH- SMALL_PILL_RADIUS )/ 2, -(float)(DEFAULT_GAME_ELEMENT_HEIGHT- SMALL_PILL_RADIUS )/ 2);
       superPillShape.Origin = new Vector2f((float)-(DEFAULT_GAME_ELEMENT_WIDTH- SUPER_PILL_RADIUS) / 2, -(float)(DEFAULT_GAME_ELEMENT_HEIGHT- SUPER_PILL_RADIUS) / 2);
@@ -124,9 +124,9 @@ namespace TP2PROF
         if (true == retval)
         {
           int k = 0;
-          for (int i = 0; i < grid.Height; i++)
+          for (int i = 0; i < grid.Height-1; i++)
           {
-            for (int j = 0; j < grid.Width; j++)
+            for (int j = 0; j < grid.Width-1; j++)
             {
               // On parcourt la grille et, avec la méthode GetGridElementAt
               // On trouve les positions où il y a des fantômes
@@ -162,7 +162,7 @@ namespace TP2PROF
     /// mangé par un fantôme</returns>
     public EndGameResult Update(Keyboard.Key key)
     {
-     
+      
       j++;
       // Déplacement du joueur
       if (deadSoundStopped == false)
@@ -225,7 +225,8 @@ namespace TP2PROF
       if (grid.GetGridElementAt(pacman.Row, pacman.Column) == PacmanElement.SuperPastille)
       {
         grid.SetGridElementAt(pacman.Row, pacman.Column, PacmanElement.Rien);
-        SuperPillActive = true;
+                SuperPillActive = true;
+                tmSuperPastille.Start();
       }      
 
       // Validations de fin de partie
@@ -274,9 +275,9 @@ namespace TP2PROF
     private int CountNbPillsRemaining()
     {
       int nbpillsRemaining=0;
-      for (int i = 0; i < grid.Height; i++)
+      for (int i = 0; i < grid.Height-1; i++)
       {
-        for (int j = 0; j < grid.Width; j++)
+        for (int j = 0; j < grid.Width-1; j++)
         {
             if(grid.GetGridElementAt(i,j)==PacmanElement.Pastille)
             {
@@ -335,5 +336,10 @@ namespace TP2PROF
         pacman.Draw(window);
         
     }
+       private void SetSuperPastilleToFalse(object sender, ElapsedEventArgs e)
+        {
+            SuperPillActive = false;
+            tmSuperPastille.Stop();
+        }
   }
 }

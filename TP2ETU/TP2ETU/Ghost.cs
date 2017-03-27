@@ -98,10 +98,8 @@ namespace TP2PROF
         {
             int deplacemenEnY = direction == Direction.North ? -1 : direction == Direction.South ? 1: 0;
             int deplacementEnX = direction == Direction.East ? 1 : direction == Direction.West ? -1 :0;
-      
             if (grid.GetGridElementAt(Row + deplacemenEnY, Column + deplacementEnX) != PacmanElement.Mur)
             {
-               
                 position.X = Column + deplacementEnX;
                 position.Y = Row + deplacemenEnY;
             }
@@ -115,7 +113,12 @@ namespace TP2PROF
     public void Draw(RenderWindow window, bool isSuperPillActive)
     {
       // Mise à jour de la texture du fantôme selon l'état du fantôme
-      if (isSuperPillActive)
+      
+      if(IsWeak)
+            {
+                ghostSprite.Texture = ghostTextureScared;
+            }
+            else if (isSuperPillActive)
       {
         // État "effrayé", i.-e. le pacman a mangé une superpastille
         ghostSprite.Texture = ghostTextureWeak;
@@ -147,9 +150,11 @@ namespace TP2PROF
     {
             // ppoulin
             // A compléter 
-            if (pacmanPosition.X == Column && pacmanPosition.Y == Row)
+            if (pacmanPosition.X == Column && pacmanPosition.Y == Row && isSuperPillActive)
                 isWeak = true;
-            if (!isSuperPillActive)
+            if(Row == grid.GhostCagePositionRow && Column == grid.GhostCagePositionColumn)
+                isWeak = false;
+            if (!isSuperPillActive && !IsWeak)
                 Move(PathFinder.FindShortestPath(grid, position.X, position.Y, pacmanPosition.X, pacmanPosition.Y), grid);
             else
                 Move(PathFinder.FindShortestPath(grid, position.X, position.Y, grid.GhostCagePositionColumn, grid.GhostCagePositionRow), grid);

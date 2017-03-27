@@ -112,8 +112,7 @@ namespace TP2PROF
           }
           pacmanUpdatefrequency = PACMAN_UPDATE_FREQUENCY;
         }
-      
-         
+                
         
       }
     }
