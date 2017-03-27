@@ -52,7 +52,6 @@ namespace TP2PROF
     /// <summary>
     /// Délai pour que le fantôme se mette en mouvement au début
     /// </summary>
-    
 
     
     /// <summary>
@@ -88,15 +87,15 @@ namespace TP2PROF
       ghostSprite.Origin = new Vector2f(ghostTextureNormal.Size.X / 2, ghostTextureNormal.Size.Y / 2);
     }
 
-    /// <summary>
-    /// Déplace le fantôme selon une direction donnée.
-    /// </summary>
-    /// <param name="direction">Direction dans laquelle on veut déplacer le fantôme</param>
-    /// <param name="grid">Grille de référence. Utilisée pour ne pas que le fantôme passe au travers des murs</param>
-    // A COMPLETER MÉTHODE MOVE
-    public bool Move(Direction direction, Grid grid)
+
+        /// <summary>
+        /// Déplace le fantôme selon une direction donnée.
+        /// </summary>
+        /// <param name="direction">Direction dans laquelle on veut déplacer le fantôme</param>
+        /// <param name="grid">Grille de référence. Utilisée pour ne pas que le fantôme passe au travers des murs</param>
+        /// // A COMPLETER MÉTHODE MOVE
+        public void Move(Direction direction, Grid grid)
         {
-            bool fantomePeutSeDeplacer = true;
             int deplacemenEnY = direction == Direction.North ? -1 : direction == Direction.South ? 1: 0;
             int deplacementEnX = direction == Direction.East ? 1 : direction == Direction.West ? -1 :0;
             grid.SetGridElementAt(Row, Column, 0);
@@ -106,12 +105,6 @@ namespace TP2PROF
                 position.X = Column + deplacementEnX;
                 position.Y = Row + deplacemenEnY;
             }
-            else
-            {
-                fantomePeutSeDeplacer = false;
-            }
-                
-            return fantomePeutSeDeplacer;
         }
 
     /// <summary>

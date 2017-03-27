@@ -130,10 +130,9 @@ namespace TP2Tests
 
 
             // Appel de la méthode à tester
-            bool result = ghost.Move(Direction.West, grid);
+            ghost.Move(Direction.West, grid);
 
             // Validation des résultats
-            Assert.AreEqual(true, result);
             Assert.AreEqual(1, ghost.Row);
             Assert.AreEqual(2, ghost.Column);
             Assert.AreEqual(PacmanElement.Fantome, grid.GetGridElementAt(1, 2));
@@ -180,10 +179,9 @@ namespace TP2Tests
 
 
             // Appel de la méthode à tester
-            bool result = ghost.Move(Direction.East, grid);
+            ghost.Move(Direction.East, grid);
 
             // Validation des résultats
-            Assert.AreEqual(true, result);
             Assert.AreEqual(9, ghost.Row);
             Assert.AreEqual(10, ghost.Column);
             Assert.AreEqual(PacmanElement.Fantome, grid.GetGridElementAt(9, 10));
