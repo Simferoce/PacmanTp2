@@ -198,7 +198,7 @@ namespace TP2PROF
         {
           for (int i = 0; i < NB_GHOSTS; i++)
           {
-
+            
             ghosts[i].Update(grid, new Vector2i(pacman.Column, pacman.Row), SuperPillActive);
             j = 0;
           }
@@ -244,6 +244,7 @@ namespace TP2PROF
             if (eatGhostSound.Status == SoundStatus.Stopped)
             {
               eatGhostSound.Play();
+
             }
           }
           else 
