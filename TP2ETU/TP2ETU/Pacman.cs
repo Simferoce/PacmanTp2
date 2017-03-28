@@ -66,9 +66,9 @@ namespace TP2PROF
     // A COMPLETER MÉTHODE MOVE
     public void Move(Direction direction,Grid grid)
     {
-      
+     
        pacmanUpdatefrequency--;
-
+     
        if (pacmanUpdatefrequency<=0)
        {
         if (direction == Direction.North)
@@ -77,6 +77,7 @@ namespace TP2PROF
           {
             position.Y = position.Y - 1;
             pacmanSprite.Rotation = -90;
+            
           }
           pacmanUpdatefrequency = PACMAN_UPDATE_FREQUENCY;
         }
@@ -86,7 +87,7 @@ namespace TP2PROF
           if (grid.GetGridElementAt(position.Y + 1, position.X) != PacmanElement.Mur)
           {
             position.Y = position.Y + 1;
-            pacmanSprite.Rotation = 90;            
+            pacmanSprite.Rotation = 90;          
           }
           pacmanUpdatefrequency = PACMAN_UPDATE_FREQUENCY;
         }
@@ -96,7 +97,7 @@ namespace TP2PROF
           if (grid.GetGridElementAt(position.Y, position.X + 1) != PacmanElement.Mur)
           {
             position.X = position.X + 1;
-            pacmanSprite.Rotation = 0;           
+            pacmanSprite.Rotation = 0;
           }
           pacmanUpdatefrequency = PACMAN_UPDATE_FREQUENCY;
         }
@@ -108,7 +109,6 @@ namespace TP2PROF
             
             position.X = position.X - 1;
             pacmanSprite.Rotation = -180;
-            
           }
           pacmanUpdatefrequency = PACMAN_UPDATE_FREQUENCY;
         }
