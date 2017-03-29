@@ -26,9 +26,10 @@ namespace TP2PROF
     /// </summary>
     public int Row { get { if (position == null) { return -1; } else { return this.position.Y; } } }
 
-    private const int PACMAN_UPDATE_FREQUENCY = 3;
+    private const int PACMAN_UPDATE_FREQUENCY = Application.TARGET_FPS/10;
 
     private  int pacmanUpdatefrequency= PACMAN_UPDATE_FREQUENCY;
+
     // Propriétés SFML pour l'affichage
     Texture pacmanTexture = new Texture("Assets/Pacman.bmp");
     Sprite pacmanSprite = null;
@@ -64,49 +65,49 @@ namespace TP2PROF
     /// <param name="grid">Grille de référence. Utilisée pour ne pas que le pacman passe au travers des murs</param>
     public void Move(Direction direction,Grid grid)
     {
-      
+     
        pacmanUpdatefrequency--;
-
+     
        if (pacmanUpdatefrequency<=0)
        {
         if (direction == Direction.North)
         {
-          if (grid.GetGridElementAt(position.Y - 1, position.X) != PacmanElement.Mur)
+          if ((grid.GetGridElementAt(position.Y - 1, position.X) != PacmanElement.Mur)&& (grid.GetGridElementAt(position.Y - 1, position.X) != PacmanElement.Cage))
           {
             position.Y = position.Y - 1;
             pacmanSprite.Rotation = -90;
+            
           }
           pacmanUpdatefrequency = PACMAN_UPDATE_FREQUENCY;
         }
 
         if (direction == Direction.South)
         {
-          if (grid.GetGridElementAt(position.Y + 1, position.X) != PacmanElement.Mur)
+          if ((grid.GetGridElementAt(position.Y + 1, position.X) != PacmanElement.Mur )&& (grid.GetGridElementAt(position.Y + 1, position.X) != PacmanElement.Cage))
           {
             position.Y = position.Y + 1;
-            pacmanSprite.Rotation = 90;            
+            pacmanSprite.Rotation = 90;          
           }
           pacmanUpdatefrequency = PACMAN_UPDATE_FREQUENCY;
         }
 
         if (direction == Direction.East)
         {
-          if (grid.GetGridElementAt(position.Y, position.X + 1) != PacmanElement.Mur)
+          if  ( (grid.GetGridElementAt(position.Y, position.X + 1) != PacmanElement.Mur) &&(grid.GetGridElementAt(position.Y, position.X+1) != PacmanElement.Cage))
           {
             position.X = position.X + 1;
-            pacmanSprite.Rotation = 0;           
+            pacmanSprite.Rotation = 0;
           }
           pacmanUpdatefrequency = PACMAN_UPDATE_FREQUENCY;
         }
 
         if (direction == Direction.West)
         {
-          if (grid.GetGridElementAt(position.Y, position.X - 1) != PacmanElement.Mur)
+          if ( (grid.GetGridElementAt(position.Y, position.X -1) != PacmanElement.Mur) && (grid.GetGridElementAt(position.Y, position.X-1) != PacmanElement.Cage))
           {
             
             position.X = position.X - 1;
             pacmanSprite.Rotation = -180;
-            
           }
           pacmanUpdatefrequency = PACMAN_UPDATE_FREQUENCY;
         }

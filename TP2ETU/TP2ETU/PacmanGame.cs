@@ -86,7 +86,7 @@ namespace TP2PROF
     SoundBuffer beginning = new SoundBuffer("Assets/pacman_beginning.wav");
     public Sound beginningSound = null;
     bool deadSoundStopped = false;
-
+    Direction currentDirection=Direction.Undefined;
     /// <summary>
     /// Constructeur du jeu de Pacman
     /// </summary>
@@ -104,7 +104,7 @@ namespace TP2PROF
       eatGhostSound = new Sound(eatGhost);
       beginningSound = new Sound(beginning);
     }
-     
+    #region vbouchard LoadGrid
     /// <summary>
     /// Charge un fichier de labyrinthe.
     /// </summary>
@@ -151,7 +151,7 @@ namespace TP2PROF
 
       return retval;
     }
-
+    #endregion
     /// <summary>
     /// Met à jour la logique de jeu
     /// </summary>
@@ -162,38 +162,38 @@ namespace TP2PROF
     //vbouchard et srobidas
     public EndGameResult Update(Keyboard.Key key)
     {
-      
+      #region vbouchard update (
       j++;
       // Déplacement du joueur
       if (deadSoundStopped == false)
       {
         if (key == Keyboard.Key.Left)
         {
-          pacman.Move(Direction.West, grid);
-
+          if (grid.GetGridElementAt(pacman.Row, pacman.Column - 1) != PacmanElement.Mur)
+            currentDirection = Direction.West;
         }
         else if (key == Keyboard.Key.Right)
         {
-          pacman.Move(Direction.East, grid);
+          if (grid.GetGridElementAt(pacman.Row,pacman.Column +1) != PacmanElement.Mur)
+          currentDirection = Direction.East;
         }
         else if (key == Keyboard.Key.Up)
         {
-          pacman.Move(Direction.North, grid);
+          if (grid.GetGridElementAt(pacman.Row-1, pacman.Column) != PacmanElement.Mur)
+            currentDirection = Direction.North;
         }
         else if (key == Keyboard.Key.Down)
         {
-          pacman.Move(Direction.South, grid);
+          if (grid.GetGridElementAt(pacman.Row+1, pacman.Column) != PacmanElement.Mur)
+            currentDirection = Direction.South;
         }
+        
+        pacman.Move(currentDirection, grid);
       }
-
-
-
-
+      #endregion
+      //vbouchard
       // Mise à jour des fantômes
-
-      
-
-        if(j==10)
+      if (j==10)
         {
           for (int i = 0; i < NB_GHOSTS; i++)
           {
@@ -202,13 +202,14 @@ namespace TP2PROF
             j = 0;
           }
         }
-      
+
 
 
 
       // Gestion des collisions avec le pacman
           
 
+      #region vBouchard pastille
       // Vérification du ramassage d'une pastille
       if (grid.GetGridElementAt(pacman.Row, pacman.Column) == PacmanElement.Pastille)
       {
@@ -218,19 +219,20 @@ namespace TP2PROF
        }
        grid.SetGridElementAt(pacman.Row, pacman.Column, PacmanElement.Rien);
       }
-
-        // Vérification de l'activation d'un superpill
-        #region Superpill srobidas
-        if (grid.GetGridElementAt(pacman.Row, pacman.Column) == PacmanElement.SuperPastille)
+      #endregion
+      // Vérification de l'activation d'un superpill
+      #region Superpill srobidas
+      if (grid.GetGridElementAt(pacman.Row, pacman.Column) == PacmanElement.SuperPastille)
       {
         grid.SetGridElementAt(pacman.Row, pacman.Column, PacmanElement.Rien);
                 SuperPillActive = true;
                 tmSuperPastille.Start();
       }
-    #endregion
-            // Validations de fin de partie
-            //Il faut que la partie finisse s'il ne reste plus de pastille
-            if ( CountNbPillsRemaining()==0)
+      #endregion
+      #region vbouchard fin partie et pacman mangé ou non
+      // Validations de fin de partie
+      //Il faut que la partie finisse s'il ne reste plus de pastille
+      if ( CountNbPillsRemaining()==0)
       {
          return EndGameResult.Win;
       }
@@ -261,7 +263,7 @@ namespace TP2PROF
           }
         }
       }
-
+      #endregion
       return EndGameResult.NotFinished;
     }
 
@@ -269,7 +271,8 @@ namespace TP2PROF
     /// <summary>
     /// Calcule le nombre de pastille non encore ramassées par le pacman
     /// </summary>
-    /// <returns>Le nombre de pastille non encore ramassées</returns>  
+    /// <returns>Le nombre de pastille non encore ramassées</returns>
+    #region vbouchard  CountPillsRemaining  
     private int CountNbPillsRemaining()
     {
       int nbpillsRemaining=0;
@@ -285,7 +288,7 @@ namespace TP2PROF
       }
       return nbpillsRemaining;
     }
-
+    #endregion
 
     /// <summary>
     /// Dessine les éléments du jeu à l'écran

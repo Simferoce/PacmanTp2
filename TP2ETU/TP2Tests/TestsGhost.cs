@@ -14,7 +14,6 @@ namespace TP2Tests
   {
 
         //ppoulin
-        //A DECOMMENTER LORSQUE LE CODE AURA ÉTÉ PRODUIT
             /// <summary>
             /// Teste la création d'un fantôme
             /// </summary>

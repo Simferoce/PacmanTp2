@@ -65,8 +65,10 @@ namespace TP2Tests
           grid.LoadFromMemory(VALID_LEVEL_01);
           Pacman pacman = new Pacman(grid.PacmanOriginalPositionRow, grid.PacmanOriginalPositionColumn);
 
-        // Appel de la méthode à tester
-         pacman.Move(Direction.East, grid);
+          // Appel de la méthode à tester
+          pacman.Move(Direction.East, grid);
+          pacman.Move(Direction.East, grid);
+          pacman.Move(Direction.East, grid);
 
           // Validation des résultats
           Assert.AreEqual(grid.PacmanOriginalPositionRow, pacman.Row);
@@ -86,7 +88,8 @@ namespace TP2Tests
 
           // Appel de la méthode à tester
           pacman.Move(Direction.North, grid);
-
+          pacman.Move(Direction.North, grid);
+          pacman.Move(Direction.North, grid);
           // Validation des résultats
           Assert.AreEqual(grid.PacmanOriginalPositionRow, pacman.Row);
           Assert.AreEqual(grid.PacmanOriginalPositionColumn, pacman.Column);
@@ -105,7 +108,8 @@ namespace TP2Tests
 
           // Appel de la méthode à tester
           pacman.Move(Direction.South, grid);
-
+          pacman.Move(Direction.South, grid);
+          pacman.Move(Direction.South, grid);
           // Validation des résultats
           Assert.AreEqual(grid.PacmanOriginalPositionRow, pacman.Row);
           Assert.AreEqual(grid.PacmanOriginalPositionColumn, pacman.Column);
@@ -148,7 +152,8 @@ namespace TP2Tests
 
           // Appel de la méthode à tester
           pacman.Move(Direction.South, grid);
-
+          pacman.Move(Direction.South, grid);
+          pacman.Move(Direction.South, grid);
           // Validation des résultats
           Assert.AreEqual(grid.PacmanOriginalPositionRow, pacman.Row);
           Assert.AreEqual(grid.PacmanOriginalPositionColumn, pacman.Column);
@@ -165,16 +170,19 @@ namespace TP2Tests
     public void TestMoveValid01()
     {
       // Mise en place des données      
-      
-
+      Grid grid = new Grid();
+      grid.LoadFromMemory(VALID_LEVEL_02);
+      Pacman pacman = new Pacman(grid.PacmanOriginalPositionRow - 2, grid.PacmanOriginalPositionColumn);
 
 
       // Appel de la méthode à tester
-      
-
+      pacman.Move(Direction.West, grid);
+      pacman.Move(Direction.West, grid);
+      pacman.Move(Direction.West, grid);
 
       // Validation des résultats
-      
+      Assert.AreEqual(grid.PacmanOriginalPositionRow-2, pacman.Row);
+      Assert.AreEqual(grid.PacmanOriginalPositionColumn-1, pacman.Column);
 
 
       // Clean-up
@@ -190,14 +198,18 @@ namespace TP2Tests
     public void TestMoveValid02()
     {
       // Mise en place des données      
-
-
+      Grid grid = new Grid();
+      grid.LoadFromMemory(VALID_LEVEL_02);
+      Ghost ghost = new Ghost(grid.PacmanOriginalPositionRow-1 ,grid.PacmanOriginalPositionColumn);    
+      Pacman pacman = new Pacman(grid.PacmanOriginalPositionRow, grid.PacmanOriginalPositionColumn);
 
       // Appel de la méthode à tester
-      
-
+      pacman.Move(Direction.North, grid);
+      pacman.Move(Direction.North, grid);
+      pacman.Move(Direction.North, grid);
       // Validation des résultats
-      
+      Assert.AreEqual(ghost.Row, pacman.Row);
+      Assert.AreEqual(ghost.Column, pacman.Column);
 
 
       // Clean-up
