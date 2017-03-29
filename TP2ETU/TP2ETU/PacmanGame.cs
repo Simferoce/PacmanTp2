@@ -86,6 +86,7 @@ namespace TP2PROF
     SoundBuffer beginning = new SoundBuffer("Assets/pacman_beginning.wav");
     public Sound beginningSound = null;
     bool deadSoundStopped = false;
+    Direction currentDirection=Direction.Undefined;
     /// <summary>
     /// Constructeur du jeu de Pacman
     /// </summary>
@@ -162,39 +163,38 @@ namespace TP2PROF
     /// mangé par un fantôme</returns>
     public EndGameResult Update(Keyboard.Key key)
     {
-      
+      #region vbouchard update (
       j++;
       // Déplacement du joueur
       if (deadSoundStopped == false)
       {
         if (key == Keyboard.Key.Left)
         {
-          pacman.Move(Direction.West, grid);
-
+          if (grid.GetGridElementAt(pacman.Row, pacman.Column - 1) != PacmanElement.Mur)
+            currentDirection = Direction.West;
         }
         else if (key == Keyboard.Key.Right)
         {
-          pacman.Move(Direction.East, grid);
+          if (grid.GetGridElementAt(pacman.Row,pacman.Column +1) != PacmanElement.Mur)
+          currentDirection = Direction.East;
         }
         else if (key == Keyboard.Key.Up)
         {
-          pacman.Move(Direction.North, grid);
+          if (grid.GetGridElementAt(pacman.Row-1, pacman.Column) != PacmanElement.Mur)
+            currentDirection = Direction.North;
         }
         else if (key == Keyboard.Key.Down)
         {
-          pacman.Move(Direction.South, grid);
+          if (grid.GetGridElementAt(pacman.Row+1, pacman.Column) != PacmanElement.Mur)
+            currentDirection = Direction.South;
         }
+        
+        pacman.Move(currentDirection, grid);
       }
-
-
-
-
+      #endregion
+      //vbouchard
       // Mise à jour des fantômes
-      // A COMPLETER 
-
-      
-
-        if(j==10)
+      if (j==10)
         {
           for (int i = 0; i < NB_GHOSTS; i++)
           {
@@ -208,7 +208,6 @@ namespace TP2PROF
 
 
       // Gestion des collisions avec le pacman
-      // A COMPLETER
 
       #region vBouchard pastille
       // Vérification du ramassage d'une pastille
@@ -273,7 +272,6 @@ namespace TP2PROF
     /// Calcule le nombre de pastille non encore ramassées par le pacman
     /// </summary>
     /// <returns>Le nombre de pastille non encore ramassées</returns>
-    // A COMPLETER
     #region vbouchard  CountPillsRemaining  
     private int CountNbPillsRemaining()
     {

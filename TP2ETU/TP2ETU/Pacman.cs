@@ -26,7 +26,7 @@ namespace TP2PROF
     /// </summary>
     public int Row { get { if (position == null) { return -1; } else { return this.position.Y; } } }
 
-    private const int PACMAN_UPDATE_FREQUENCY = 2;
+    private const int PACMAN_UPDATE_FREQUENCY = Application.TARGET_FPS/10;
 
     private  int pacmanUpdatefrequency= PACMAN_UPDATE_FREQUENCY;
 
