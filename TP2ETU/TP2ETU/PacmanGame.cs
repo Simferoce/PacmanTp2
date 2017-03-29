@@ -162,15 +162,16 @@ namespace TP2PROF
     /// si le joueur a mangé toutes les pastilles ou EndGameResult.Losse si le joueur s'est fait
     /// mangé par un fantôme</returns>
     public EndGameResult Update(Keyboard.Key key)
-    {
-      #region vbouchard update (
+    {     
+      #region vbouchard update 
       j++;
+     
       // Déplacement du joueur
       if (deadSoundStopped == false)
       {
         if (key == Keyboard.Key.Left)
         {
-          if (grid.GetGridElementAt(pacman.Row, pacman.Column - 1) != PacmanElement.Mur)
+          if (grid.GetGridElementAt(pacman.Row, pacman.Column - 1) != PacmanElement.Mur )
             currentDirection = Direction.West;
         }
         else if (key == Keyboard.Key.Right)
