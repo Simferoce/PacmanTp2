@@ -17,7 +17,6 @@ namespace TP2PROF
         /// <param name="fromX">La position du pacman en colonne</param>
         /// <param name="fromY">La position du pacman en ligne</param>
         /// <returns>Le tableau initialisé correctement</returns>
-        // A COMPLÉTER  Méthode InitCosts
         static public int[,] InitCosts(Grid aGrid, int fromX, int fromY)
         {
 
@@ -35,9 +34,6 @@ namespace TP2PROF
             return costs;
         }
 
-
-
-
         /// <summary>
         /// Détermine le premier déplacement nécessaire pour déplacer un objet de la position (fromX, fromY)
         /// vers la position (toX, toY). 
@@ -51,7 +47,6 @@ namespace TP2PROF
         /// <returns>La direction dans laquelle on doit aller. Direction.None si l'on
         /// est déjà rendu ou Direction.Undefined s'il est impossible d'atteindre la cible</returns>
         /// </summary>
-        // A COMPLÉTER  Méthode FindShortestPath
         public static Direction FindShortestPath(Grid aGrid, int fromX, int fromY, int toX, int toY)
         {
 
@@ -59,11 +54,8 @@ namespace TP2PROF
 
             ComputeCosts(aGrid, fromX, fromY, toX, toY, costs);
 
-            return RecurseFindDirection(costs, toX, toY);
+            return FindDirection(costs, toX, toY);
         }
-
-
-
 
         /// <summary>
         /// Calcule le nombre de déplacements requis pour aller de la position (fromX, fromY)
@@ -78,7 +70,6 @@ namespace TP2PROF
         /// que la position (toX, toY) est celle du pacman.</remark>
         /// <remark>Cette méthode est récursive</remark>
         /// </summary>
-        // A COMPLÉTER  Méthode ComputeCosts
         static public void ComputeCosts(Grid aGrid, int fromX, int fromY, int toX, int toY, int[,] costs)
         {
             bool bas = false;
@@ -165,11 +156,6 @@ namespace TP2PROF
 
         }
 
-
-
-
-
-
         /// <summary>
         /// Parcourt le tableau de coûts pour trouver le premier déplacement requis pour aller de la position (fromX, fromY)
         /// vers la position (toX, toY). 
@@ -181,43 +167,42 @@ namespace TP2PROF
         /// </summary>
         /// <returns>La direction dans laquelle on doit aller. Direction.None si l'on
         /// est déjà rendu ou Direction.Undefined s'il est impossible d'atteindre la cible</returns>
-        // A COMPLÉTER  Méthode RecurseFindDirection
         //srobidas
-        public static Direction RecurseFindDirection(int[,] costs, int targetX, int targetY)
+        public static Direction FindDirection(int[,] costs, int targetX, int targetY)
         {
             if (costs[targetY, targetX] == 0)
                 return Direction.None;
-            return RecurseFindDirectionRecurse(costs, targetX, targetY);
+            return RecurseFindDirection(costs, targetX, targetY);
         }
-        private static Direction RecurseFindDirectionRecurse(int[,] costs, int targetX, int targetY)
+        private static Direction RecurseFindDirection(int[,] costs, int targetX, int targetY)
         {
             if (targetX - 1 >= 0 && costs[targetY, targetX - 1] < costs[targetY, targetX])
             {
                 if (costs[targetY, targetX - 1] == 0)
                     return Direction.East;
                 else
-                    return RecurseFindDirection(costs, targetX - 1, targetY);
+                    return FindDirection(costs, targetX - 1, targetY);
             }
             if (targetX + 1 < costs.GetLength(1) && costs[targetY, targetX + 1] < costs[targetY, targetX])
             {
                 if (costs[targetY, targetX + 1] == 0)
                     return Direction.West;
                 else
-                    return RecurseFindDirection(costs, targetX + 1, targetY);
+                    return FindDirection(costs, targetX + 1, targetY);
             }
             if (targetY - 1 >= 0 && costs[targetY - 1, targetX] < costs[targetY, targetX])
             {
                 if (costs[targetY - 1, targetX] == 0)
                     return Direction.South;
                 else
-                    return RecurseFindDirection(costs, targetX, targetY - 1);
+                    return FindDirection(costs, targetX, targetY - 1);
             }
             if (targetY + 1 < costs.GetLength(0) && costs[targetY + 1, targetX] < costs[targetY, targetX])
             {
                 if (costs[targetY + 1, targetX] == 0)
                     return Direction.North;
                 else
-                    return RecurseFindDirection(costs, targetX, targetY + 1);
+                    return FindDirection(costs, targetX, targetY + 1);
             }
             return Direction.Undefined;
         }

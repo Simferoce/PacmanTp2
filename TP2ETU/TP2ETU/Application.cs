@@ -38,7 +38,6 @@ namespace TP2PROF
       window.SetFramerateLimit(TARGET_FPS);
     }
 
-
     public void Run()
     {
       if(true == game.LoadGrid("Levels/level1.txt"))
