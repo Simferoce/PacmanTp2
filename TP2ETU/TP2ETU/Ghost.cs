@@ -93,7 +93,6 @@ namespace TP2PROF
         /// </summary>
         /// <param name="direction">Direction dans laquelle on veut déplacer le fantôme</param>
         /// <param name="grid">Grille de référence. Utilisée pour ne pas que le fantôme passe au travers des murs</param>
-        /// // A COMPLETER MÉTHODE MOVE
         public void Move(Direction direction, Grid grid)
         {
             int deplacemenEnY = direction == Direction.North ? -1 : direction == Direction.South ? 1: 0;
@@ -104,13 +103,31 @@ namespace TP2PROF
                 position.Y = Row + deplacemenEnY;
             }
         }
+        /// <summary>
+        /// Déplace le fantôme selon une direction donnée.
+        /// </summary>
+        /// <param name="direction">Direction dans laquelle on veut déplacer le fantôme</param>
+        /// <param name="grid">Grille de référence. Utilisée pour ne pas que le fantôme passe au travers des murs</param>
+        /// <param name="tousLesGhosts">Tous les ghosts de la grille</param>
+        /// <param name="isSuperPillActive">Super Pill est-elle active</param>
+        public void Move(Direction direction, Grid grid, Ghost[] tousLesGhosts, bool isSuperPillActive)
+        {
+            int deplacemenEnY = direction == Direction.North ? -1 : direction == Direction.South ? 1 : 0;
+            int deplacementEnX = direction == Direction.East ? 1 : direction == Direction.West ? -1 : 0;
+            if (grid.GetGridElementAt(Row + deplacemenEnY, Column + deplacementEnX) != PacmanElement.Mur 
+                && verifierFantomeDevant(deplacementEnX, deplacemenEnY, tousLesGhosts,isSuperPillActive))
+            {
+                position.X = Column + deplacementEnX;
+                position.Y = Row + deplacemenEnY;
+            }
+        }
 
-    /// <summary>
-    /// Affiche le fantôme dans la fenêtre de rendu.
-    /// </summary>
-    /// <param name="window">Fenêtre de rendu</param>
-    /// <param name="isSuperPillActive">true si une super-pastille est active, false sinon</param>
-    public void Draw(RenderWindow window, bool isSuperPillActive)
+        /// <summary>
+        /// Affiche le fantôme dans la fenêtre de rendu.
+        /// </summary>
+        /// <param name="window">Fenêtre de rendu</param>
+        /// <param name="isSuperPillActive">true si une super-pastille est active, false sinon</param>
+        public void Draw(RenderWindow window, bool isSuperPillActive)
     {
       // Mise à jour de la texture du fantôme selon l'état du fantôme
       
@@ -140,24 +157,49 @@ namespace TP2PROF
       window.Draw(ghostSprite);
     }
 
-    /// <summary>
-    /// Met à jour la position du fantôme
-    /// </summary>
-    /// <param name="grid">Grille de référence. Utilisée pour ne pas que le fantôme passe au travers des murs</param>
-    /// <param name="pacmanPosition"></param>
-    /// <param name="isSuperPillActive"></param>
-    public void Update(Grid grid, Vector2i pacmanPosition, bool isSuperPillActive)
+        /// <summary>
+        /// Met à jour la position du fantôme
+        /// </summary>
+        /// <param name="grid">Grille de référence. Utilisée pour ne pas que le fantôme passe au travers des murs</param>
+        /// <param name="pacmanPosition">La position du pacman</param>
+        /// <param name="isSuperPillActive">Super Pill est-elle active</param>
+        public void Update(Grid grid, Vector2i pacmanPosition, bool isSuperPillActive, Ghost[] tousLesGhosts)
     {
-            // ppoulin
-            // A compléter 
             if (pacmanPosition.X == Column && pacmanPosition.Y == Row && isSuperPillActive)
                 isWeak = true;
             if(Row == grid.GhostCagePositionRow && Column == grid.GhostCagePositionColumn)
                 isWeak = false;
             if (!isSuperPillActive && !IsWeak)
-                Move(PathFinder.FindShortestPath(grid, position.X, position.Y, pacmanPosition.X, pacmanPosition.Y), grid);
+                Move(PathFinder.FindShortestPath(grid, position.X, position.Y, pacmanPosition.X, pacmanPosition.Y), grid, tousLesGhosts, isSuperPillActive);
             else
-                Move(PathFinder.FindShortestPath(grid, position.X, position.Y, grid.GhostCagePositionColumn, grid.GhostCagePositionRow), grid);
+                Move(PathFinder.FindShortestPath(grid, position.X, position.Y, grid.GhostCagePositionColumn, grid.GhostCagePositionRow), grid, tousLesGhosts, isSuperPillActive);
         }
+        /// <summary>
+        /// Vérifier s'il y a un autre fantôme à l'endroit du déplacement spécifié.
+        /// </summary>
+        /// <param name="deplacemenEnX">Le déplacement en X à vérifié</param>
+        /// <param name="deplacemenEnY">Le déplacement en Y à vérifié</param>
+        /// <param name="tousLesGhosts">Taleau avec tous les fantômes</param>
+        /// <param name="isSuperPillActive">Super Pill est-elle active</param>
+        /// <returns>True - déplacement possible, False - déplacement impossible</returns>
+        private bool verifierFantomeDevant(int deplacemenEnX, int deplacemenEnY, Ghost[] tousLesGhosts, bool isSuperPillActive)
+    {
+            if(isSuperPillActive || IsWeak)
+            {
+                return true;
+            }
+            int indexGhost = ghostId == 0 ? 1 : 0;
+            for(int i = 0; i < tousLesGhosts.Length - 1; i++)
+            {
+                if(Column + deplacemenEnX == tousLesGhosts[indexGhost].Column 
+                    && Row + deplacemenEnY == tousLesGhosts[indexGhost].Row)
+                {
+                    return false;
+                }
+                indexGhost = ++indexGhost % tousLesGhosts.Length;
+            }
+        return true;
+    }
   }
+
 }

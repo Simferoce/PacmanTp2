@@ -134,7 +134,6 @@ namespace TP2Tests
             // Validation des résultats
             Assert.AreEqual(1, ghost.Row);
             Assert.AreEqual(2, ghost.Column);
-        
 
             // Clean-up
         }
@@ -183,8 +182,6 @@ namespace TP2Tests
             // Validation des résultats
             Assert.AreEqual(9, ghost.Row);
             Assert.AreEqual(10, ghost.Column);
-         
-
             // Clean-up
         }
   }

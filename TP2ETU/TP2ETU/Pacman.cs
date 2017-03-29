@@ -7,10 +7,10 @@ using SFML.System;
 using System.Timers;
 using SFML.Graphics;
 namespace TP2PROF
-{
+{    
+    //vbouchard
   public class Pacman
   {
-    //vbouchard
     /// <summary>
     /// Position du pacman
     /// </summary>
@@ -63,7 +63,6 @@ namespace TP2PROF
     /// </summary>
     /// <param name="direction">Direction dans laquelle on veut déplacer le pacman</param>
     /// <param name="grid">Grille de référence. Utilisée pour ne pas que le pacman passe au travers des murs</param>
-    // A COMPLETER MÉTHODE MOVE
     public void Move(Direction direction,Grid grid)
     {
      

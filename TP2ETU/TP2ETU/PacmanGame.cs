@@ -10,6 +10,8 @@ using SFML.System;
 using SFML.Audio;
 namespace TP2PROF
 {
+    //srobidas et vvbouchard
+    //vvbouchard
   public class PacmanGame
   {
     /// <summary>
@@ -35,28 +37,27 @@ namespace TP2PROF
     /// <summary>
     /// La grille principale de jeu. Elle est créée dans la méthode LoadGrid
     /// </summary>
-    // A COMPLETER
     Grid grid = new Grid();
 
     /// <summary>
     /// Nombre de fantômes présents dans le jeu
     /// </summary>
-    // A COMPLETER
     private const int NB_GHOSTS = 4;
     /// <summary>
     /// Les 4 fantômes du jeu
     /// </summary>
-    // A COMPLETER
     private Ghost[] ghosts= new Ghost[NB_GHOSTS];
     /// <summary>
     /// Le pacman du jeu
     /// </summary>
-    // A COMPLETER
     private Pacman pacman;
     /// <summary>
     /// Durée d'activation d'une superpastille (en secondes)
     /// </summary>
     private const int SUPERPILL_ACTIVATION_TIME = 5000;
+    /// <summary>
+    /// Timer de la durée de la super pastille
+    /// </summary>
     Timer tmSuperPastille = new Timer(SUPERPILL_ACTIVATION_TIME);
     int j = 0;
 
@@ -65,7 +66,6 @@ namespace TP2PROF
     /// Accesseur permettant de savoir si une super pastille est active
     /// Propriété C#
     /// </summary>
-    // A COMPLETER
     private bool SuperPillActive = false;
 
     // Propriétés SFML pour l'affichage des pastilles et super-pastilles
@@ -91,8 +91,7 @@ namespace TP2PROF
     /// Constructeur du jeu de Pacman
     /// </summary>
     public PacmanGame()
-    {
-            // A COMPLETER   
+    { 
 
 
             tmSuperPastille.Elapsed += new ElapsedEventHandler(SetSuperPastilleToFalse);
@@ -118,7 +117,6 @@ namespace TP2PROF
       {
         string fileContent = System.IO.File.ReadAllText(path);
         // Appelez la méthode LoadFromMemory ici
-        // A COMPLETER
          retval = grid.LoadFromMemory(fileContent);
 
         // Si le chargement s'est correctement effectué
@@ -161,6 +159,7 @@ namespace TP2PROF
     /// <returns>EndGameResult.NotFinished si la partie est toujours en cours, EndGameResult.Win
     /// si le joueur a mangé toutes les pastilles ou EndGameResult.Losse si le joueur s'est fait
     /// mangé par un fantôme</returns>
+    //vbouchard et srobidas
     public EndGameResult Update(Keyboard.Key key)
     {     
       #region vbouchard update 
@@ -200,7 +199,7 @@ namespace TP2PROF
           for (int i = 0; i < NB_GHOSTS; i++)
           {
             
-            ghosts[i].Update(grid, new Vector2i(pacman.Column, pacman.Row), SuperPillActive);
+            ghosts[i].Update(grid, new Vector2i(pacman.Column, pacman.Row), SuperPillActive, ghosts);
             j = 0;
           }
         }
@@ -209,6 +208,7 @@ namespace TP2PROF
 
 
       // Gestion des collisions avec le pacman
+          
 
       #region vBouchard pastille
       // Vérification du ramassage d'une pastille
@@ -297,8 +297,6 @@ namespace TP2PROF
     /// <param name="window">Le contexte de rendu</param>
     public void Draw(RenderWindow window)
     {
-      // PPOULIN
-      // A DECOMMENTER LORSQUE LES CLASSES AURONT ÉTÉ CODÉES
       for (int row = 0; row < grid.Height; row++)
       {
         for (int col = 0; col < grid.Width; col++)
@@ -338,7 +336,14 @@ namespace TP2PROF
         pacman.Draw(window);
         
     }
-       private void SetSuperPastilleToFalse(object sender, ElapsedEventArgs e)
+
+    /// <summary>
+        /// Met l'effet de la super pastille à nulle.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+    //srobidas
+    private void SetSuperPastilleToFalse(object sender, ElapsedEventArgs e)
         {
             SuperPillActive = false;
             tmSuperPastille.Stop();

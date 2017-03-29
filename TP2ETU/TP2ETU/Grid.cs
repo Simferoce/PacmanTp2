@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using SFML.System;
 namespace TP2PROF
 {
-    //simon
+    //srobidas
   public class Grid
   {
         /// <summary>
@@ -17,19 +17,16 @@ namespace TP2PROF
         /// Grille logique du jeu.
         /// Tableau 2D de PacmanElement
         /// </summary>  
-        // A compléter
         private PacmanElement[,] elements;
         /// <summary>
         /// Position de la cage des fantômes
         /// </summary>
-        // A compléter
         private Vector2i ghostCagePosition;
 
         /// <summary>
         /// Accesseur du numéro de la ligne où se trouve la cage à fantômes
         /// Propriété C#
         /// </summary>
-        // A compléter
         public int GhostCagePositionRow
         {
             get
@@ -43,7 +40,6 @@ namespace TP2PROF
         /// Accesseur du numéro de la colonne où se trouve la cage à fantômes
         /// Propriété C#
         /// </summary>
-        // A compléter
         public int GhostCagePositionColumn
         {
             get
@@ -57,13 +53,11 @@ namespace TP2PROF
         /// <summary>
         /// Position originale du pacman
         /// </summary>
-        // A compléter
         private Vector2i pacmanOriginalPosition;
         /// <summary>
         /// Accesseur du numéro de la ligne où se trouve le pacman au début
         /// Propriété c#
         /// </summary>
-        // A compléter
         public int PacmanOriginalPositionRow
         {
             get
@@ -78,7 +72,6 @@ namespace TP2PROF
         /// Accesseur du numéro de la colonne où se trouve le pacman au début
         /// Propriété C#
         /// </summary>
-        // A compléter
         public int PacmanOriginalPositionColumn
         {
             get
@@ -93,7 +86,6 @@ namespace TP2PROF
         /// Accesseur de la hauteur
         /// Propriété C#
         /// </summary>
-        // A compléter
         public int Height
         {
             get
@@ -108,7 +100,6 @@ namespace TP2PROF
         /// Accesseur de la largeur
         /// Propriété C#
         /// </summary>
-        // A compléter
         public int Width
         {
             get
@@ -123,7 +114,6 @@ namespace TP2PROF
     /// <summary>
     /// Constructeur sans paramètre
     /// </summary>
-    // A compléter
     public Grid()
         {
             elements = new PacmanElement[PacmanGame.DEFAULT_GAME_HEIGHT, PacmanGame.DEFAULT_GAME_WIDTH];
@@ -151,7 +141,6 @@ namespace TP2PROF
             bool cageFound = false;
             string[] temp1 = content.Split(';');
             string[][] temp2 = new string[temp1.Length][];
-            // A compléter selon les spécifications du travail
             try
             {
 
@@ -215,7 +204,6 @@ namespace TP2PROF
     /// <param name="row">La ligne</param>
     /// <param name="column">La colonne</param>
     /// <returns>L'élément à la position spécifiée</returns>
-    // A compléter
     public PacmanElement GetGridElementAt(int row, int column)
         {
             if(row >= Height || column >= Width || row < 0 || column < 0)
@@ -234,7 +222,6 @@ namespace TP2PROF
     /// <param name="row">La ligne</param>
     /// <param name="column">La colonne</param>
     /// <param name="element">Le nouvel élément à spécifier</param>
-    // A compléter
     public void SetGridElementAt(int row, int column, PacmanElement element)
         {
             if (row >= Height || column >= Width || row < 0 || column < 0)
