@@ -73,7 +73,7 @@ namespace TP2PROF
        {
         if (direction == Direction.North)
         {
-          if (grid.GetGridElementAt(position.Y - 1, position.X) != PacmanElement.Mur)
+          if ((grid.GetGridElementAt(position.Y - 1, position.X) != PacmanElement.Mur)&& (grid.GetGridElementAt(position.Y - 1, position.X) != PacmanElement.Cage))
           {
             position.Y = position.Y - 1;
             pacmanSprite.Rotation = -90;
@@ -84,7 +84,7 @@ namespace TP2PROF
 
         if (direction == Direction.South)
         {
-          if (grid.GetGridElementAt(position.Y + 1, position.X) != PacmanElement.Mur)
+          if ((grid.GetGridElementAt(position.Y + 1, position.X) != PacmanElement.Mur )&& (grid.GetGridElementAt(position.Y + 1, position.X) != PacmanElement.Cage))
           {
             position.Y = position.Y + 1;
             pacmanSprite.Rotation = 90;          
@@ -94,7 +94,7 @@ namespace TP2PROF
 
         if (direction == Direction.East)
         {
-          if (grid.GetGridElementAt(position.Y, position.X + 1) != PacmanElement.Mur)
+          if  ( (grid.GetGridElementAt(position.Y, position.X + 1) != PacmanElement.Mur) &&(grid.GetGridElementAt(position.Y, position.X+1) != PacmanElement.Cage))
           {
             position.X = position.X + 1;
             pacmanSprite.Rotation = 0;
@@ -104,7 +104,7 @@ namespace TP2PROF
 
         if (direction == Direction.West)
         {
-          if (grid.GetGridElementAt(position.Y, position.X -1) != PacmanElement.Mur)
+          if ( (grid.GetGridElementAt(position.Y, position.X -1) != PacmanElement.Mur) && (grid.GetGridElementAt(position.Y, position.X-1) != PacmanElement.Cage))
           {
             
             position.X = position.X - 1;

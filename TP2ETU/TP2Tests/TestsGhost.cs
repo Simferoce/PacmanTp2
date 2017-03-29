@@ -14,7 +14,6 @@ namespace TP2Tests
   {
 
         //ppoulin
-        //A DECOMMENTER LORSQUE LE CODE AURA ÉTÉ PRODUIT
             /// <summary>
             /// Teste la création d'un fantôme
             /// </summary>
@@ -135,7 +134,7 @@ namespace TP2Tests
             // Validation des résultats
             Assert.AreEqual(1, ghost.Row);
             Assert.AreEqual(2, ghost.Column);
-            Assert.AreEqual(PacmanElement.Fantome, grid.GetGridElementAt(1, 2));
+        
 
             // Clean-up
         }
@@ -184,7 +183,8 @@ namespace TP2Tests
             // Validation des résultats
             Assert.AreEqual(9, ghost.Row);
             Assert.AreEqual(10, ghost.Column);
-            Assert.AreEqual(PacmanElement.Fantome, grid.GetGridElementAt(9, 10));
+         
+
             // Clean-up
         }
   }
