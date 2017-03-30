@@ -8,6 +8,9 @@ using SFML.System;
 namespace TP2PROF
 {
     //srobidas
+    /// <summary>
+    /// Classe des fantômes du jeux pacman.
+    /// </summary>
   public class Ghost
   {
         /// <summary>
