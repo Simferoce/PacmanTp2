@@ -67,8 +67,7 @@ namespace TP2Tests
 
           // Appel de la méthode à tester
           pacman.Move(Direction.East, grid);
-          pacman.Move(Direction.East, grid);
-          pacman.Move(Direction.East, grid);
+
 
           // Validation des résultats
           Assert.AreEqual(grid.PacmanOriginalPositionRow, pacman.Row);
@@ -88,8 +87,7 @@ namespace TP2Tests
 
           // Appel de la méthode à tester
           pacman.Move(Direction.North, grid);
-          pacman.Move(Direction.North, grid);
-          pacman.Move(Direction.North, grid);
+
           // Validation des résultats
           Assert.AreEqual(grid.PacmanOriginalPositionRow, pacman.Row);
           Assert.AreEqual(grid.PacmanOriginalPositionColumn, pacman.Column);
@@ -108,8 +106,7 @@ namespace TP2Tests
 
           // Appel de la méthode à tester
           pacman.Move(Direction.South, grid);
-          pacman.Move(Direction.South, grid);
-          pacman.Move(Direction.South, grid);
+
           // Validation des résultats
           Assert.AreEqual(grid.PacmanOriginalPositionRow, pacman.Row);
           Assert.AreEqual(grid.PacmanOriginalPositionColumn, pacman.Column);
@@ -152,8 +149,7 @@ namespace TP2Tests
 
           // Appel de la méthode à tester
           pacman.Move(Direction.South, grid);
-          pacman.Move(Direction.South, grid);
-          pacman.Move(Direction.South, grid);
+
           // Validation des résultats
           Assert.AreEqual(grid.PacmanOriginalPositionRow, pacman.Row);
           Assert.AreEqual(grid.PacmanOriginalPositionColumn, pacman.Column);
@@ -177,8 +173,7 @@ namespace TP2Tests
 
       // Appel de la méthode à tester
       pacman.Move(Direction.West, grid);
-      pacman.Move(Direction.West, grid);
-      pacman.Move(Direction.West, grid);
+
 
       // Validation des résultats
       Assert.AreEqual(grid.PacmanOriginalPositionRow-2, pacman.Row);
@@ -205,8 +200,7 @@ namespace TP2Tests
 
       // Appel de la méthode à tester
       pacman.Move(Direction.North, grid);
-      pacman.Move(Direction.North, grid);
-      pacman.Move(Direction.North, grid);
+
       // Validation des résultats
       Assert.AreEqual(ghost.Row, pacman.Row);
       Assert.AreEqual(ghost.Column, pacman.Column);

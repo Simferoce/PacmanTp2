@@ -99,6 +99,7 @@ namespace TP2PROF
                 if (aGrid.GetGridElementAt(fromY, fromX - 1) != PacmanElement.Mur)
                     gauche = true;
             }
+            //Condition de Sortie (Quand le Fantome à trouver où est le Pacman)
             if ((fromX == toX) && (fromY == toY))
             {
                 bas = false;

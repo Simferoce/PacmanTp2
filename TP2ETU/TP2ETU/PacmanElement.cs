@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace TP2PROF
 {
-    // ppoulin
-    // Complétez la déclaration du type énuméré PacmanElement
+    //Les éléments possible dans le tableau logique du jeu Pacman
     public enum PacmanElement
     {
         Rien,

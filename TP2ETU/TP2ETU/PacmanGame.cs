@@ -55,12 +55,14 @@ namespace TP2PROF
     /// Durée d'activation d'une superpastille (en secondes)
     /// </summary>
     private const int SUPERPILL_ACTIVATION_TIME = 5000;
+    private const int MOVE_FREQUENCY = 300;
     /// <summary>
     /// Timer de la durée de la super pastille
     /// </summary>
-    Timer tmSuperPastille = new Timer(SUPERPILL_ACTIVATION_TIME);
-    int j = 0;
-
+    private  Timer tmSuperPastille = new Timer(SUPERPILL_ACTIVATION_TIME);
+    private   Timer tm = new Timer(MOVE_FREQUENCY);
+    private int j = 0;
+    public bool isBeginning = true;
 
     /// <summary>
     /// Accesseur permettant de savoir si une super pastille est active
@@ -83,10 +85,10 @@ namespace TP2PROF
     Sound deathSound = null;
     SoundBuffer eatGhost = new SoundBuffer("Assets/pacman_eatghost.wav");
     Sound eatGhostSound = null;
-    SoundBuffer beginning = new SoundBuffer("Assets/pacman_beginning.wav");
-    public Sound beginningSound = null;
     bool deadSoundStopped = false;
+    bool isDead = false;
     Direction currentDirection=Direction.Undefined;
+    Direction lastDirection = Direction.Undefined;
     /// <summary>
     /// Constructeur du jeu de Pacman
     /// </summary>
@@ -95,6 +97,7 @@ namespace TP2PROF
 
 
             tmSuperPastille.Elapsed += new ElapsedEventHandler(SetSuperPastilleToFalse);
+            tm.Elapsed += new ElapsedEventHandler(UpdatePacman);
       // Initialisation SFML
       smallPillShape.Origin = new Vector2f((float)-(DEFAULT_GAME_ELEMENT_WIDTH- SMALL_PILL_RADIUS )/ 2, -(float)(DEFAULT_GAME_ELEMENT_HEIGHT- SMALL_PILL_RADIUS )/ 2);
       superPillShape.Origin = new Vector2f((float)-(DEFAULT_GAME_ELEMENT_WIDTH- SUPER_PILL_RADIUS) / 2, -(float)(DEFAULT_GAME_ELEMENT_HEIGHT- SUPER_PILL_RADIUS) / 2);
@@ -102,7 +105,11 @@ namespace TP2PROF
       chompSound = new Sound(chomp);
       deathSound = new Sound(death);
       eatGhostSound = new Sound(eatGhost);
-      beginningSound = new Sound(beginning);
+   
+        tm.Start();
+      
+      
+      
     }
     #region vbouchard LoadGrid
     /// <summary>
@@ -163,48 +170,51 @@ namespace TP2PROF
     public EndGameResult Update(Keyboard.Key key)
     {     
       #region vbouchard update 
-      j++;
-     
-      // Déplacement du joueur
-      if (deadSoundStopped == false)
-      {
-        if (key == Keyboard.Key.Left)
-        {
-          if (grid.GetGridElementAt(pacman.Row, pacman.Column - 1) != PacmanElement.Mur )
-            currentDirection = Direction.West;
-        }
-        else if (key == Keyboard.Key.Right)
-        {
-          if (grid.GetGridElementAt(pacman.Row,pacman.Column +1) != PacmanElement.Mur)
-          currentDirection = Direction.East;
-        }
-        else if (key == Keyboard.Key.Up)
-        {
-          if (grid.GetGridElementAt(pacman.Row-1, pacman.Column) != PacmanElement.Mur)
-            currentDirection = Direction.North;
-        }
-        else if (key == Keyboard.Key.Down)
-        {
-          if (grid.GetGridElementAt(pacman.Row+1, pacman.Column) != PacmanElement.Mur)
-            currentDirection = Direction.South;
-        }
-        
-        pacman.Move(currentDirection, grid);
-      }
-      #endregion
-      //vbouchard
-      // Mise à jour des fantômes
-      if (j==10)
-        {
-          for (int i = 0; i < NB_GHOSTS; i++)
+      if (isBeginning==false)
+      { 
+        j++;
+      
+        // Déplacement du joueur
+          if (currentDirection != lastDirection)
           {
-            
-            ghosts[i].Update(grid, new Vector2i(pacman.Column, pacman.Row), SuperPillActive, ghosts);
-            j = 0;
+          pacman.Move(currentDirection, grid);
           }
+        if (key == Keyboard.Key.Left)
+          {
+            if (grid.GetGridElementAt(pacman.Row, pacman.Column - 1) != PacmanElement.Mur )
+              currentDirection = Direction.West;
+          }
+          else if (key == Keyboard.Key.Right)
+          {
+            if (grid.GetGridElementAt(pacman.Row,pacman.Column +1) != PacmanElement.Mur)
+            currentDirection = Direction.East;
+          }
+          else if (key == Keyboard.Key.Up)
+          {
+            if (grid.GetGridElementAt(pacman.Row-1, pacman.Column) != PacmanElement.Mur)
+              currentDirection = Direction.North;
+          }
+          else if (key == Keyboard.Key.Down)
+          {
+            if (grid.GetGridElementAt(pacman.Row+1, pacman.Column) != PacmanElement.Mur)
+              currentDirection = Direction.South;
+          }
+        lastDirection = currentDirection;
+      
+        #endregion
+        //vbouchard
+        // Mise à jour des fantômes
+        if (j==10)
+          {
+            for (int i = 0; i < NB_GHOSTS; i++)
+            {
+            
+              ghosts[i].Update(grid, new Vector2i(pacman.Column, pacman.Row), SuperPillActive, ghosts);
+              j = 0;
+            }
+          }
+
         }
-
-
 
 
       // Gestion des collisions avec le pacman
@@ -253,6 +263,8 @@ namespace TP2PROF
           }
           else 
           {
+            tm.Close();
+            isDead = true;
             if ((deathSound.Status == SoundStatus.Stopped) && deadSoundStopped==false)
             {
               deathSound.Play();
@@ -332,7 +344,7 @@ namespace TP2PROF
       }
 
       // Le pacman
-      if (null != pacman)
+      if (null != pacman && isDead==false)
         pacman.Draw(window);
         
     }
@@ -348,5 +360,11 @@ namespace TP2PROF
             SuperPillActive = false;
             tmSuperPastille.Stop();
         }
+    private void UpdatePacman(object sender, ElapsedEventArgs e)
+    {
+      pacman.Move(currentDirection, grid);
+     
+    }
+   
   }
 }
