@@ -7,12 +7,11 @@ using SFML.System;
 namespace TP2PROF
 {
     //srobidas
+    /// <summary>
+    /// Classe de grille de jeu de pacman.
+    /// </summary>
   public class Grid
   {
-        /// <summary>
-        /// Niveau chargé
-        /// </summary>
-        bool isLevelLoad = false;
         /// <summary>
         /// Grille logique du jeu.
         /// Tableau 2D de PacmanElement
@@ -21,66 +20,34 @@ namespace TP2PROF
         /// <summary>
         /// Position de la cage des fantômes
         /// </summary>
-        private Vector2i ghostCagePosition;
+        private Vector2i ghostCagePosition = new Vector2i(-1,-1);
 
         /// <summary>
         /// Accesseur du numéro de la ligne où se trouve la cage à fantômes
         /// Propriété C#
         /// </summary>
-        public int GhostCagePositionRow
-        {
-            get
-            {
-                if (!isLevelLoad)
-                    return -1;
-                return ghostCagePosition.Y;
-            }
-        }
+        public int GhostCagePositionRow { get{return ghostCagePosition.Y; }}
         /// <summary>
         /// Accesseur du numéro de la colonne où se trouve la cage à fantômes
         /// Propriété C#
         /// </summary>
-        public int GhostCagePositionColumn
-        {
-            get
-            {
-                if (!isLevelLoad)
-                    return -1;
-                return ghostCagePosition.X;
-            }
-        }
+        public int GhostCagePositionColumn{get{ return ghostCagePosition.X;} }
 
         /// <summary>
         /// Position originale du pacman
         /// </summary>
-        private Vector2i pacmanOriginalPosition;
+        private Vector2i pacmanOriginalPosition = new Vector2i(-1,-1);
         /// <summary>
         /// Accesseur du numéro de la ligne où se trouve le pacman au début
         /// Propriété c#
         /// </summary>
-        public int PacmanOriginalPositionRow
-        {
-            get
-            {
-                if (!isLevelLoad)
-                    return -1;
-                return pacmanOriginalPosition.Y;
-            }
-        }
+        public int PacmanOriginalPositionRow { get { return pacmanOriginalPosition.Y;}}
 
         /// <summary>
         /// Accesseur du numéro de la colonne où se trouve le pacman au début
         /// Propriété C#
         /// </summary>
-        public int PacmanOriginalPositionColumn
-        {
-            get
-            {
-                if (!isLevelLoad)
-                    return -1;
-                return pacmanOriginalPosition.X;
-            }
-        }
+        public int PacmanOriginalPositionColumn{get {return pacmanOriginalPosition.X;}}
 
         /// <summary>
         /// Accesseur de la hauteur
@@ -90,7 +57,7 @@ namespace TP2PROF
         {
             get
             {
-                if (!isLevelLoad)
+                if (elements == null)
                     return -1;
                 return elements.GetLength(0);
             }
@@ -104,7 +71,7 @@ namespace TP2PROF
         {
             get
             {
-                if (!isLevelLoad)
+                if (elements == null)
                     return -1;
                 return elements.GetLength(1);
             }
@@ -116,7 +83,7 @@ namespace TP2PROF
     /// </summary>
     public Grid()
         {
-            elements = new PacmanElement[PacmanGame.DEFAULT_GAME_HEIGHT, PacmanGame.DEFAULT_GAME_WIDTH];
+
         }
 
 
@@ -128,7 +95,7 @@ namespace TP2PROF
     /// <returns>true si le chargement est correct, false sinon</returns>
     public bool LoadFromMemory(string content)
     {
-            isLevelLoad = true;
+            elements = new PacmanElement[PacmanGame.DEFAULT_GAME_HEIGHT, PacmanGame.DEFAULT_GAME_WIDTH];
             for(int i =0; i < Height; i++)
             {
                 for(int j =0; j < Width; j++)

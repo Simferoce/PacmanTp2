@@ -156,6 +156,24 @@ namespace TP2PROF
 
         }
 
+        //srobidas
+        /// <summary>
+        /// Parcourt le tableau de coûts pour trouver le premier déplacement requis pour aller de la position (fromX, fromY)
+        /// vers la position (toX, toY) (Methode englobante). 
+        /// <param name="costs">Le tableau des coûts prédédemment calculés</param>
+        /// <param name="targetX">La position cible en colonne</param>
+        /// <param name="targetY">La position cible en ligne</param>
+        /// <remark>Typiquement, la position (targetX, targetY) est celle du pacman.</remark>
+        /// </summary>
+        /// <returns>La direction dans laquelle on doit aller. Direction.None si l'on
+        /// est déjà rendu ou Direction.Undefined s'il est impossible d'atteindre la cible</returns>
+        public static Direction FindDirection(int[,] costs, int targetX, int targetY)
+        {
+            //Si le fantôme est déjà sur la case cible
+            if (costs[targetY, targetX] == 0)
+                return Direction.None;
+            return RecurseFindDirection(costs, targetX, targetY);
+        }
         /// <summary>
         /// Parcourt le tableau de coûts pour trouver le premier déplacement requis pour aller de la position (fromX, fromY)
         /// vers la position (toX, toY). 
@@ -167,17 +185,12 @@ namespace TP2PROF
         /// </summary>
         /// <returns>La direction dans laquelle on doit aller. Direction.None si l'on
         /// est déjà rendu ou Direction.Undefined s'il est impossible d'atteindre la cible</returns>
-        //srobidas
-        public static Direction FindDirection(int[,] costs, int targetX, int targetY)
-        {
-            if (costs[targetY, targetX] == 0)
-                return Direction.None;
-            return RecurseFindDirection(costs, targetX, targetY);
-        }
         private static Direction RecurseFindDirection(int[,] costs, int targetX, int targetY)
         {
+            //Vérifie si la cause de gauche,droite,haut,bas est une case qui rapproche la cible du fantôme.
             if (targetX - 1 >= 0 && costs[targetY, targetX - 1] < costs[targetY, targetX])
             {
+                //Si la case + le déplacement est égale à la position du fantôme, fini la recursivité et retourne le déplacement correspondant.
                 if (costs[targetY, targetX - 1] == 0)
                     return Direction.East;
                 else
@@ -204,6 +217,7 @@ namespace TP2PROF
                 else
                     return FindDirection(costs, targetX, targetY + 1);
             }
+            //Si aucun chemin est valide.
             return Direction.Undefined;
         }
     }
