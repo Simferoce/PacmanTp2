@@ -34,7 +34,8 @@ namespace TP2Tests
 1,1,5,1,1,1,1,1,1,4,1,4,1,1,1,1,1,1,5,1,1;
 1,1,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,1,1;
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1";
-    #region MANDAT1
+    //vbouchard
+    #region MANDAT1 vbouchard
     
 
     /// <summary>
@@ -49,9 +50,11 @@ namespace TP2Tests
       // Mise en place des données
       Grid aGrid = new Grid();
       aGrid.LoadFromMemory(VALID_LEVEL_01);
-      // Appel de la méthode à tester
+     
+       // Appel de la méthode à tester
       int[,] costs= PathFinder.InitCosts(aGrid, aGrid.GhostCagePositionColumn, aGrid.GhostCagePositionRow);
-      // Validations
+     
+       // Validations
       Assert.AreEqual(0, costs[aGrid.GhostCagePositionColumn, aGrid.GhostCagePositionRow]);
       for (int i = 0; i < aGrid.Width-1; i++)
       {
@@ -74,8 +77,10 @@ namespace TP2Tests
     [TestMethod]
     public void TestComputeCost_01()
     {
+      // Mise en place des données
       Grid aGrid = new Grid();
       aGrid.LoadFromMemory(VALID_LEVEL_01);
+      
       // Appel de la méthode à tester
       int[,] costs = PathFinder.InitCosts(aGrid, aGrid.GhostCagePositionColumn, aGrid.GhostCagePositionRow);
       PathFinder.ComputeCosts(aGrid, aGrid.GhostCagePositionColumn, aGrid.GhostCagePositionRow, aGrid.PacmanOriginalPositionColumn, aGrid.PacmanOriginalPositionRow, costs);
@@ -115,8 +120,10 @@ namespace TP2Tests
       Grid aGrid = new Grid();
       aGrid.LoadFromMemory(VALID_LEVEL_01);
       int[,] costs = PathFinder.InitCosts(aGrid, aGrid.GhostCagePositionColumn, aGrid.GhostCagePositionRow);
-      // Appel de la méthode à tester
+     
+       // Appel de la méthode à tester
       PathFinder.ComputeCosts(aGrid, aGrid.GhostCagePositionColumn, aGrid.GhostCagePositionRow, aGrid.GhostCagePositionColumn, aGrid.GhostCagePositionRow, costs);
+      
       // Validations
       Assert.AreEqual(0, costs[aGrid.GhostCagePositionRow, aGrid.GhostCagePositionColumn]);
       for (int i = 0; i < aGrid.Width - 1; i++)
@@ -129,6 +136,7 @@ namespace TP2Tests
           }
         }
       }
+      
       // Cleanup
       costs = null;
     }
@@ -165,8 +173,10 @@ namespace TP2Tests
       int[,] costs = PathFinder.InitCosts(aGrid, aGrid.GhostCagePositionColumn, aGrid.GhostCagePositionRow - 1); ;
       // Appel de la méthode à tester
       PathFinder.ComputeCosts(aGrid, aGrid.GhostCagePositionColumn, aGrid.GhostCagePositionRow - 1, aGrid.GhostCagePositionColumn - 1, aGrid.GhostCagePositionRow - 1, costs);
+      
       // Validations
       Assert.AreEqual(1, costs[aGrid.GhostCagePositionRow - 1, aGrid.GhostCagePositionColumn - 1]);
+      
       // Cleanup
       costs = null;
     }
@@ -182,10 +192,13 @@ namespace TP2Tests
       Grid aGrid = new Grid();
       aGrid.LoadFromMemory(VALID_LEVEL_01);
       int[,] costs = PathFinder.InitCosts(aGrid, aGrid.GhostCagePositionColumn, aGrid.GhostCagePositionRow);
-      // Appel de la méthode à tester
+     
+       // Appel de la méthode à tester
       PathFinder.ComputeCosts(aGrid, aGrid.GhostCagePositionColumn, aGrid.GhostCagePositionRow, aGrid.PacmanOriginalPositionColumn, aGrid.PacmanOriginalPositionRow-1, costs);
-      // Validations
+     
+       // Validations
       Assert.AreEqual(1, costs[aGrid.GhostCagePositionRow - 1, aGrid.GhostCagePositionColumn]);
+      
       // Cleanup
       costs = null;
     }
@@ -200,10 +213,13 @@ namespace TP2Tests
       Grid aGrid = new Grid();
       aGrid.LoadFromMemory(VALID_LEVEL_01);
       int[,] costs = PathFinder.InitCosts(aGrid, aGrid.GhostCagePositionColumn, aGrid.GhostCagePositionRow-1);
+
       // Appel de la méthode à tester
       PathFinder.ComputeCosts(aGrid, aGrid.GhostCagePositionColumn, aGrid.GhostCagePositionRow-1, aGrid.PacmanOriginalPositionColumn, aGrid.PacmanOriginalPositionRow, costs);
+
       // Validations
       Assert.AreEqual(1, costs[aGrid.GhostCagePositionRow, aGrid.GhostCagePositionColumn]);
+
       // Cleanup
       costs = null;
     }
@@ -238,11 +254,14 @@ namespace TP2Tests
       Grid aGrid = new Grid();
       aGrid.LoadFromMemory(VALID_LEVEL_01);
       int[,] costs = PathFinder.InitCosts(aGrid, aGrid.PacmanOriginalPositionColumn, aGrid.PacmanOriginalPositionRow);
-      // Appel de la méthode à tester
+     
+       // Appel de la méthode à tester
       PathFinder.ComputeCosts(aGrid, aGrid.GhostCagePositionColumn, aGrid.GhostCagePositionRow+1, aGrid.PacmanOriginalPositionColumn, aGrid.PacmanOriginalPositionRow, costs);
+      
       // Validations
       Assert.AreEqual(int.MinValue, costs[aGrid.GhostCagePositionRow, aGrid.GhostCagePositionColumn]);
-      // Cleanup
+     
+       // Cleanup
       costs = null;
     }
     #endregion

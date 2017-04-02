@@ -55,14 +55,22 @@ namespace TP2PROF
     /// Durée d'activation d'une superpastille (en secondes)
     /// </summary>
     private const int SUPERPILL_ACTIVATION_TIME = 5000;
+    /// <summary>
+    /// Durée de la fréquence entre chaques mouvements du pacman (en millisecondes)
+    /// </summary>
     private const int MOVE_FREQUENCY = 220;
     /// <summary>
     /// Timer de la durée de la super pastille
     /// </summary>
     private  Timer tmSuperPastille = new Timer(SUPERPILL_ACTIVATION_TIME);
-    private   Timer tm = new Timer(MOVE_FREQUENCY);
-    private int j = 0;
-    public bool isBeginning = true;
+    /// <summary>
+    ///  Timer de l'intervalle de temps entre chaque mouvements obligatoires du pacman
+    /// </summary>
+    private Timer tmMoveFrequency = new Timer(MOVE_FREQUENCY);
+    /// <summary>
+    /// Compteur représentant la fréquence de mouvement de chaques fantômes
+    /// </summary>
+    private int ghostMoveFrequency = 0;
 
     /// <summary>
     /// Accesseur permettant de savoir si une super pastille est active
@@ -79,34 +87,55 @@ namespace TP2PROF
     // Propriétés SFML pour l'affichage du labyrinthe
     Texture wallTexture = new Texture("Assets/Wall.bmp");
     Sprite wallSprite = null;
+    // Propriétés SFML Audio pour l'application des différents sons du jeu
     SoundBuffer chomp = new SoundBuffer("Assets/pacman_chomp.wav");
     Sound chompSound = null;
     SoundBuffer death = new SoundBuffer("Assets/pacman_death.wav");
     Sound deathSound = null;
     SoundBuffer eatGhost = new SoundBuffer("Assets/pacman_eatghost.wav");
     Sound eatGhostSound = null;
-    bool deadSoundIsFinished = false;
-    bool isDead = false;
+
+    /// <summary>
+    /// Booléen représentant le status de jeu (si le jeu est encore dans l'écran titre) 
+    /// </summary>
+    public bool isBeginning = true;
+    /// <summary>
+    /// Booléen représentant la fin de la trame sonore lors de la mort du Pacman
+    /// </summary>
+    private bool deadSoundWasPlayed = false;
+    /// <summary>
+    /// Booléen représentant la fin de l'affichage du Pacman lorsqu'il meurt
+    /// </summary>
+    private bool isDead = false;
+    /// <summary>
+    /// Direction représentant la direction présentement utilisée par le joueur
+    /// </summary>
     Direction currentDirection=Direction.Undefined;
+    /// <summary>
+    /// Direction représentant la direction précédemment utilisée par le joueur
+    /// </summary>
     Direction lastDirection = Direction.Undefined;
     /// <summary>
     /// Constructeur du jeu de Pacman
     /// </summary>
     public PacmanGame()
     { 
+      // Initialisation des événements liés aux timers
+      tmSuperPastille.Elapsed += new ElapsedEventHandler(SetSuperPastilleToFalse);
+      tmMoveFrequency.Elapsed += new ElapsedEventHandler(UpdatePacman);
 
-
-            tmSuperPastille.Elapsed += new ElapsedEventHandler(SetSuperPastilleToFalse);
-            tm.Elapsed += new ElapsedEventHandler(UpdatePacman);
       // Initialisation SFML
       smallPillShape.Origin = new Vector2f((float)-(DEFAULT_GAME_ELEMENT_WIDTH- SMALL_PILL_RADIUS )/ 2, -(float)(DEFAULT_GAME_ELEMENT_HEIGHT- SMALL_PILL_RADIUS )/ 2);
       superPillShape.Origin = new Vector2f((float)-(DEFAULT_GAME_ELEMENT_WIDTH- SUPER_PILL_RADIUS) / 2, -(float)(DEFAULT_GAME_ELEMENT_HEIGHT- SUPER_PILL_RADIUS) / 2);
       wallSprite = new Sprite(wallTexture);
+
+      // Initialisation SFML Audio
       chompSound = new Sound(chomp);
       deathSound = new Sound(death);
       eatGhostSound = new Sound(eatGhost);
-   
-        tm.Start();
+
+      // Départ du timer lié au mouvement du pacman
+      tmMoveFrequency.Start();
       
       
       
@@ -170,15 +199,16 @@ namespace TP2PROF
     public EndGameResult Update(Keyboard.Key key)
     {     
       #region vbouchard update 
+      //
       if (isBeginning==false)
       { 
-        j++;
+        ghostMoveFrequency++;
       
         // Déplacement du joueur
           if (currentDirection != lastDirection)
           {
             pacman.Move(currentDirection, grid);
-            tm.Start();
+            tmMoveFrequency.Start();
           }
         if (key == Keyboard.Key.Left)
           {
@@ -202,34 +232,42 @@ namespace TP2PROF
           }
     
           lastDirection = currentDirection;
-      
-        #endregion
-        //vbouchard
+
+     
         // Mise à jour des fantômes
-        if (j==10)
+
+        // Compteur représentant l'intervalle de temps après chaques mise à jours des fantômes
+        if (ghostMoveFrequency==10)
           {
+            //Va chercher chaques fantômes invidiuellement
             for (int i = 0; i < NB_GHOSTS; i++)
             {
-            
+              // Va mettre à jours chaque fantôme donnée à chaque fois que le compteur est rendu à une certaine fréquence 
               ghosts[i].Update(grid, new Vector2i(pacman.Column, pacman.Row), SuperPillActive, ghosts);
-              j = 0;
+
+              // Va remettre le compteur à 0
+              ghostMoveFrequency = 0;
             }
           }
 
         }
-
+      #endregion
 
       // Gestion des collisions avec le pacman
-          
+
 
       #region vBouchard pastille
       // Vérification du ramassage d'une pastille
+
+      // Si la position du pacman est la même qu'une pastille
       if (grid.GetGridElementAt(pacman.Row, pacman.Column) == PacmanElement.Pastille)
       {
+       // Vérifie que le son de mastication du pacman n'est pas arrêter avant de le jouer
        if( chompSound.Status == SoundStatus.Stopped)
        {
           chompSound.Play();         
        }
+       // Enlève la pastille à la position du pacman comme si il l'avait mangé
        grid.SetGridElementAt(pacman.Row, pacman.Column, PacmanElement.Rien);
       }
       #endregion
@@ -243,43 +281,57 @@ namespace TP2PROF
       }
       #endregion
       #region vbouchard fin partie et pacman mangé ou non
+
       // Validations de fin de partie
-      //Il faut que la partie finisse s'il ne reste plus de pastille
+
+      //Il faut que la partie finisse s'il ne reste plus de pastille (le joueur à ganger)
       if ( CountNbPillsRemaining()==0)
       {
          return EndGameResult.Win;
       }
 
       // ou si le pacman a été mangé par un fantôme
+
+      // Va chercher la position de chaques fantômes 
       for (int i = 0; i < NB_GHOSTS; i++)
       {
-        if ((pacman.Column == ghosts[i].Column) && pacman.Row==ghosts[i].Row) 
+        // Va vérifier si le pacman est à la même positon que l'un des fantômes ou non
+        if ((pacman.Column == ghosts[i].Column) && ( pacman.Row==ghosts[i].Row) ) 
         {
+          // Va vérifier si le pacman à la posibilité de manger un fantôme (Superpastille)
           if (SuperPillActive)
           {
+            // Vérifie que le son ne soit pas déjà entrain de jouer
             if (eatGhostSound.Status == SoundStatus.Stopped)
             {
+              // Va joueur le son de la mastication du pacmana lorsqu'il mange un fantôme 
               eatGhostSound.Play();
-              
+              // (Remarque) la gestion de la faiblesse d'un fantôme est gérer à l'intérieur du fantôme      
             }
           }
           else 
           {
             //Arrête de faire fonctionner le timer pour que le pacman puisse arrêter de pouvoir bouger
-            tm.Close();
+            tmMoveFrequency.Close();
 
             //Fait disparaître le pacman puisqu'il est mort
             isDead = true;
 
-            //Fait jouer le son de mort q'une seul fois (sinon à chaque fois que le jeu update on entendrait un nouveau son)
-            if (deadSoundIsFinished==false)
+            // Vérifie que le son ne soit pas déjà entrain de jouer (sans ceci le son jouerait sans cesse lors de l'update du jeu
+            //  pusique la position  du pacman est la même que celle d'un fantôme)
+            if (deadSoundWasPlayed==false)
             {
+              // Fait jouer le son de mort du pacman
               deathSound.Play();
-              deadSoundIsFinished=true;            
+
+              // Le son de mort à bel et bien été joué
+              deadSoundWasPlayed=true;            
             }
 
             //S'assure que le son de la mort du pacman soit bien completement terminer avant de gérer une fin de partie perdue
             if (deathSound.Status == SoundStatus.Stopped)
+
+
             return EndGameResult.Losse;
           }
         }
@@ -296,14 +348,17 @@ namespace TP2PROF
     #region vbouchard  CountPillsRemaining  
     private int CountNbPillsRemaining()
     {
+      // le nombre de pastille restante sur la grille de jeu
       int nbpillsRemaining=0;
-      //Va chercher le nombre de pastille non accumulé en vérifiant chaque élément de la grille de jeu
+      // Va chercher le nombre de pastille non accumulé en vérifiant chaque élément de la grille de jeu
       for (int i = 0; i < grid.Height; i++)
       {
         for (int j = 0; j < grid.Width; j++)
         {
+            // Si l'élément dans la grille correspond à une pastille
             if(grid.GetGridElementAt(i,j)==PacmanElement.Pastille)
             {
+              // On ajoute 1 au compteur de pastille restante sur la grille de jeu
               nbpillsRemaining++;
             }
         }
@@ -353,6 +408,7 @@ namespace TP2PROF
       }
 
       // Le pacman
+      // si le pacman est mort on ne le dessine pas 
       if (null != pacman && isDead==false)
         pacman.Draw(window);
         
@@ -376,8 +432,8 @@ namespace TP2PROF
     /// <param name="e"></param>
     private void UpdatePacman(object sender, ElapsedEventArgs e)
     {
-      pacman.Move(currentDirection, grid);
-     
+      // Fait bouger le pacman dans la dernière direction obligatoirement après un certain temps
+      pacman.Move(currentDirection, grid);  
     }
    
   }

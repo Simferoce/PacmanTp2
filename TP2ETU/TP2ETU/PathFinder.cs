@@ -8,30 +8,35 @@ namespace TP2PROF
 {
     public static class PathFinder
     {
+      #region vbouchard
         /// <summary>
         /// Initialise le tableau des coûts de déplacements, Le tableau est 
         /// initialisé à int.MaxValue partout sauf à l'endroit où se trouve le
         /// fantôme où le tableau est initialisé à 0.
         /// </summary>
         /// <param name="aGrid">La grille du jeu: pour connaitre les dimensions attendues</param>
-        /// <param name="fromX">La position du pacman en colonne</param>
-        /// <param name="fromY">La position du pacman en ligne</param>
+        /// <param name="fromX">La position du fantôme en colonne</param>
+        /// <param name="fromY">La position du fantôme en ligne</param>
         /// <returns>Le tableau initialisé correctement</returns>
         static public int[,] InitCosts(Grid aGrid, int fromX, int fromY)
         {
+          // Initialisation du tableau costs à la grandeur et à la hauteur de la grille           
+          int[,] costs = new int[aGrid.Height, aGrid.Width];
 
-            int[,] costs = new int[aGrid.Height, aGrid.Width];
-            costs[fromY, fromX] = 0;
-            for (int i = 0; i < costs.GetLength(0); i++)
+          // On assigne 0 à la position du fantôme dans le tableau
+          costs[fromY, fromX] = 0;
+
+          // Pour chaques éléments dans le tableau
+          for (int i = 0; i < costs.GetLength(0); i++)
+          {
+            for (int j = 0; j < costs.GetLength(1); j++)
             {
-                for (int j = 0; j < costs.GetLength(1); j++)
-                {
-                    if ((j != fromX) || (i != fromY))
-                        costs[i, j] = int.MaxValue;
-                }
+              // Si la position n'est pas celle du fantôme, On assigne l'infini à la position vérifier dans le tableau
+              if ((j != fromX) || (i != fromY))
+                  costs[i, j] = int.MaxValue;
             }
-
-            return costs;
+          }
+          return costs;
         }
 
         /// <summary>
@@ -49,12 +54,14 @@ namespace TP2PROF
         /// </summary>
         public static Direction FindShortestPath(Grid aGrid, int fromX, int fromY, int toX, int toY)
         {
+          // On initialise le tableau des coûts 
+          int[,] costs = InitCosts(aGrid, fromX, fromY);
 
-            int[,] costs = InitCosts(aGrid, fromX, fromY);
+          // On calcul le coût de chaques déplacements et on l'assigne dans le tableau des coûts
+          ComputeCosts(aGrid, fromX, fromY, toX, toY, costs);
 
-            ComputeCosts(aGrid, fromX, fromY, toX, toY, costs);
-
-            return FindDirection(costs, toX, toY);
+          // On retourne la direction que le fantôme doit prendre
+          return FindDirection(costs, toX, toY);
         }
 
         /// <summary>
@@ -72,90 +79,125 @@ namespace TP2PROF
         /// </summary>
         static public void ComputeCosts(Grid aGrid, int fromX, int fromY, int toX, int toY, int[,] costs)
         {
-            bool bas = false;
-            bool haut = false;
-            bool droite = false;
-            bool gauche = false;
+          bool bas = false;
+          bool haut = false;
+          bool droite = false;
+          bool gauche = false;
 
+          // Vers le bas 
 
-            if ((costs.GetLength(0) - 1 >= fromY + 1))
+          // Vérifie si la position en bas du fantôme en Y est bien comprise dans le tableau
+          if ((costs.GetLength(0) - 1 >= fromY + 1))
+          {
+            // Vérifie si  la position en bas du fantôme en Y n'est pas à la même position qu'un mur 
+            if (aGrid.GetGridElementAt(fromY + 1, fromX) != PacmanElement.Mur)
+              // Le fantôme peut se déplacer vers le bas
+              bas = true;
+          }
+
+          // Vers le haut
+           
+          // Vérifie si la position en haut du fantôme en Y est bien comprise dans le tableau
+          if ((0 <= fromY - 1))
+          {
+             // Vérifie si  la position en haut du fantôme en Y n'est pas à la même position qu'un mur 
+            if (aGrid.GetGridElementAt(fromY - 1, fromX) != PacmanElement.Mur)
+              // Le fantôme peut se déplacer vers le haut 
+              haut = true;
+          }
+
+          // Vers la droite
+
+          // Vérifie si la position à droite du fantôme en X est bien comprise dans le tableau
+          if ((costs.GetLength(1) - 1 >= fromX + 1))
+          {
+            // Vérifie si  la position à droite du fantôme en X n'est pas à la même position qu'un mur 
+            if (aGrid.GetGridElementAt(fromY, fromX + 1) != PacmanElement.Mur)
+              // Le fantôme peut se déplacer vers la droite
+              droite = true;
+          }
+
+          // Vers la gauche
+
+          // Vérifie si la position à gauche du fantôme en X est bien comprise dans le tableau
+          if ((0 <= fromX - 1))
+          {
+            // Vérifie si  la position à droite du fantôme en X n'est pas à la même position qu'un mur 
+            if (aGrid.GetGridElementAt(fromY, fromX - 1) != PacmanElement.Mur)
+              // Le fantôme peut se déplacer vers la gauche
+              gauche = true;
+          }
+          //Condition de Sortie (Quand le Fantôme à trouvé où est le Pacman)
+          if ((fromX == toX) && (fromY == toY))
+          {
+            // Nous avons plus à vérifier les 4 directions dans ce tableau
+            bas = false;
+            haut = false;
+            droite = false;
+            gauche = false;
+          }
+
+          // Vérifie si la direction vers le bas est valide
+          if (bas == true)
+          {
+            // Vérifie si le déplacement à la position du fantôme (ancienne position) augmenter de 1 est plus petit que
+            // le déplacement vers la direction reçue (nouvelle position) (on cherche le plus petit déplacement)
+            if ((costs[fromY, fromX] + 1 < costs[fromY + 1, fromX]))
             {
-                if (aGrid.GetGridElementAt(fromY + 1, fromX) != PacmanElement.Mur)
-                    bas = true;
+              // On assigne ce plus petit déplacement dans le tableau
+              costs[fromY + 1, fromX] = (costs[fromY, fromX]) + 1;
+
+              // Appel récursif pour découvrir un chemain pour une position potentiellement plus court
+              ComputeCosts(aGrid, fromX, fromY + 1, toX, toY, costs);
             }
-            if ((0 <= fromY - 1))
+          }
+
+          // Vérifie si la direction vers le haut est valide
+          if (haut == true)
+          {
+            // Vérifie si le déplacement à la position du fantôme (ancienne position) augmenter de 1 est plus petit que
+            // le déplacement vers la direction reçue (nouvelle position) (on cherche le plus petit déplacement)
+            if ((costs[fromY, fromX] + 1 < costs[fromY - 1, fromX]))
             {
-                if (aGrid.GetGridElementAt(fromY - 1, fromX) != PacmanElement.Mur)
-                    haut = true;
+              // On assigne ce plus petit déplacement dans le tableau
+              costs[fromY - 1, fromX] = costs[fromY, fromX] + 1;
+
+              // Appel récursif pour découvrir un chemain pour une position potentiellement plus court
+              ComputeCosts(aGrid, fromX, fromY - 1, toX, toY, costs);
             }
-            if ((costs.GetLength(1) - 1 >= fromX + 1))
+          }
+
+          // Vérifie si la direction vers la droite est valide
+          if (droite == true)
+          {
+            // Vérifie si le déplacement à la position du fantôme (ancienne position) augmenter de 1 est plus petit que
+            // le déplacement vers la direction reçue (nouvelle position) (on cherche le plus petit déplacement)
+            if (costs[fromY, fromX] + 1 < costs[fromY, fromX + 1])
             {
-                if (aGrid.GetGridElementAt(fromY, fromX + 1) != PacmanElement.Mur)
-                    droite = true;
-            }
+              // On assigne ce plus petit déplacement dans le tableau
+              costs[fromY, fromX + 1] = costs[fromY, fromX] + 1;
 
-            if ((0 <= fromX - 1))
+              // Appel récursif pour découvrir un chemain pour une position potentiellement plus court
+              ComputeCosts(aGrid, fromX + 1, fromY, toX, toY, costs);
+            }
+          }
+
+          // Vérifie si la direction vers la gauche est valide
+          if (gauche == true)
+          {
+            // Vérifie si le déplacement à la position du fantôme (ancienne position) augmenter de 1 est plus petit que
+            // le déplacement vers la direction reçue (nouvelle position) (on cherche le plus petit déplacement)
+            if (costs[fromY, fromX] + 1 < costs[fromY, fromX - 1])
             {
-                if (aGrid.GetGridElementAt(fromY, fromX - 1) != PacmanElement.Mur)
-                    gauche = true;
+              // On assigne ce plus petit déplacement dans le tableau
+              costs[fromY, fromX - 1] = costs[fromY, fromX] + 1;
+
+              // Appel récursif pour découvrir un chemain pour une position potentiellement plus court
+              ComputeCosts(aGrid, fromX - 1, fromY, toX, toY, costs);
             }
-            //Condition de Sortie (Quand le Fantome à trouver où est le Pacman)
-            if ((fromX == toX) && (fromY == toY))
-            {
-                bas = false;
-                haut = false;
-                droite = false;
-                gauche = false;
-
-            }
-            if (bas == true)
-            {
-
-                if ((costs[fromY, fromX] + 1 < costs[fromY + 1, fromX]))
-                {
-
-                    costs[fromY + 1, fromX] = (costs[fromY, fromX]) + 1;
-                    ComputeCosts(aGrid, fromX, fromY + 1, toX, toY, costs);
-                }
-
-            }
-
-
-            if (haut == true)
-            {
-                if ((costs[fromY, fromX] + 1 < costs[fromY - 1, fromX]))
-                {
-
-                    costs[fromY - 1, fromX] = costs[fromY, fromX] + 1;
-                    ComputeCosts(aGrid, fromX, fromY - 1, toX, toY, costs);
-                }
-            }
-
-
-
-
-            if (droite == true)
-            {
-                if (costs[fromY, fromX] + 1 < costs[fromY, fromX + 1])
-                {
-                    costs[fromY, fromX + 1] = costs[fromY, fromX] + 1;
-                    ComputeCosts(aGrid, fromX + 1, fromY, toX, toY, costs);
-                }
-            }
-
-
-            if (gauche == true)
-            {
-                if (costs[fromY, fromX] + 1 < costs[fromY, fromX - 1])
-                {
-
-                    costs[fromY, fromX - 1] = costs[fromY, fromX] + 1;
-                    ComputeCosts(aGrid, fromX - 1, fromY, toX, toY, costs);
-                }
-            }
-
-
+          }
         }
+        #endregion
 
         //srobidas
         /// <summary>

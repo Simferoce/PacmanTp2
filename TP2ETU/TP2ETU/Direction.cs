@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TP2PROF
 {
-  // Les directions possibles que le pacman et les fantomes peuvent bouger.
+  // Les directions possibles que le pacman et les fantomes peuvent bouger
   public enum Direction
   {
     None,

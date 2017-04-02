@@ -26,13 +26,9 @@ namespace TP2PROF
     /// </summary>
     public int Row { get { if (position == null) { return -1; } else { return this.position.Y; } } }
 
-    
-
-
     // Propriétés SFML pour l'affichage
     Texture pacmanTexture = new Texture("Assets/Pacman.bmp");
     Sprite pacmanSprite = null;
-
     
     /// <summary>
     /// Constructeur
@@ -65,53 +61,61 @@ namespace TP2PROF
     /// <param name="grid">Grille de référence. Utilisée pour ne pas que le pacman passe au travers des murs</param>
     public void Move(Direction direction, Grid grid)
     {
-
-
-
-
-
+      // Si la direction est vers le nord
       if (direction == Direction.North)
       {
+        // On s'assure que la direction vers le nord est bien disponible (qu'il n'y a pas de mur ou de cage à fantôme)
         if ((grid.GetGridElementAt(position.Y - 1, position.X) != PacmanElement.Mur) && (grid.GetGridElementAt(position.Y - 1, position.X) != PacmanElement.Cage))
         {
+          // On change la position du pacman d'une case vers le nord
           position.Y = position.Y - 1;
+
+          // On tourne le pacman pour qu'il fasse face à la direction qu'il à pris
           pacmanSprite.Rotation = -90;
-
         }
-
       }
 
+      // Si la direction est vers le sud
       if (direction == Direction.South)
       {
+        // On s'assure que la direction vers le sud est bien disponible (qu'il n'y a pas de mur ou de cage à fantôme)
         if ((grid.GetGridElementAt(position.Y + 1, position.X) != PacmanElement.Mur) && (grid.GetGridElementAt(position.Y + 1, position.X) != PacmanElement.Cage))
         {
+          // On change la position du pacman d'une case vers le sud
           position.Y = position.Y + 1;
+
+          // On tourne le pacman pour qu'il fasse face à la direction qu'il à pris
           pacmanSprite.Rotation = 90;
         }
       }
 
+      // Si la direction est vers l'est
       if (direction == Direction.East)
       {
+        // On s'assure que la direction vers l'est est bien disponible (qu'il n'y a pas de mur ou de cage à fantôme)
         if ((grid.GetGridElementAt(position.Y, position.X + 1) != PacmanElement.Mur) && (grid.GetGridElementAt(position.Y, position.X + 1) != PacmanElement.Cage))
         {
+          // On change la position du pacman d'une case vers l'est
           position.X = position.X + 1;
+
+          // On tourne le pacman pour qu'il fasse face à la direction qu'il à pris
           pacmanSprite.Rotation = 0;
         }
-
       }
 
+      // Si la direction est vers l'ouest
       if (direction == Direction.West)
       {
+        // On s'assure que la direction vers l'ouest est bien disponible (qu'il n'y a pas de mur ou de cage à fantôme)
         if ((grid.GetGridElementAt(position.Y, position.X - 1) != PacmanElement.Mur) && (grid.GetGridElementAt(position.Y, position.X - 1) != PacmanElement.Cage))
         {
-
+          // On change la position du pacman d'une case vers l'ouest
           position.X = position.X - 1;
+
+          // On tourne le pacman pour qu'il fasse face à la direction qu'il à pris
           pacmanSprite.Rotation = -180;
         }
-
       }
-
-
     }
 
 
@@ -121,9 +125,7 @@ namespace TP2PROF
     /// <param name="window">Fenêtre de rendu</param>
     public void Draw(RenderWindow window)
     {
-      // ppoulin
-      // A décommenter lorsqu'il sera possible d'accéder aux propriétés Column et Row
-      // du pacman  
+      // ppoulin  
       pacmanSprite.Position = new Vector2f(PacmanGame.DEFAULT_GAME_ELEMENT_WIDTH * Column,
                                           PacmanGame.DEFAULT_GAME_ELEMENT_HEIGHT * Row) + pacmanSprite.Origin;
       window.Draw(pacmanSprite);

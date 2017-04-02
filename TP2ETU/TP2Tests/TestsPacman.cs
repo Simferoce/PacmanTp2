@@ -12,7 +12,6 @@ namespace TP2Tests
   public class TestsPacman
   {
     // vbouchard
-    // A DECOMMENTER LORSQUE LE CODE AURA ÉTÉ PRODUIT
 
         /// <summary>
         /// Teste la création d'un pacman à une position donnée
