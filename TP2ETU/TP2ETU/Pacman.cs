@@ -47,7 +47,25 @@ namespace TP2PROF
       }
       catch (ArgumentOutOfRangeException)
       {
-        Console.WriteLine("fermeture inexpecté");
+        if (row>PacmanGame.DEFAULT_GAME_HEIGHT  )
+        {
+          position.Y = PacmanGame.DEFAULT_GAME_HEIGHT;
+        }
+
+        if (row < 0)
+        {
+          position.Y = 0;
+        }
+
+        if (column> PacmanGame.DEFAULT_GAME_WIDTH)
+        {
+          position.X = PacmanGame.DEFAULT_GAME_WIDTH;
+        }
+
+        if (column < 0)
+        {
+          position.X = 0;
+        }
       }
       // Initialisation des propriétés SFML
       pacmanSprite = new Sprite(pacmanTexture);
